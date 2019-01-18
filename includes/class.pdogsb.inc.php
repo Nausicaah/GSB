@@ -241,33 +241,21 @@ class PdoGsb
      *
      * @param String $idVisiteur ID du visiteur
      * @param String $mois       Mois sous la forme aaaamm
-     * @param Array  $lesFrais   tableau associatif de clé idFrais et
-     *                           de valeur la quantité pour ce frais
      *
      * @return null
      */
-    public function supprimerFraisForfait($idVisiteur, $mois, $lesFrais)
+    public function supprimerFraisForfait($idVisiteur, $mois)
     {
-        $lesCles = array_keys($lesFrais);
-        foreach ($lesCles as $unIdFrais) {
-            $qte = $lesFrais[$unIdFrais];
             $requetePrepare = PdoGSB::$monPdo->prepare(
-                'DELETE FROM lignefraisforfait '
+                'DELETE FROM lignefraishorsforfait '
                 . 'WHERE lignefraisforfait.idvisiteur = :unIdVisiteur '
                 . 'AND lignefraisforfait.mois = :unMois '
-                . 'AND lignefraisforfait.idfraisforfait = :idFrais'
             );
-            $requetePrepare->bindParam(':uneQte', $qte, PDO::PARAM_INT);
             $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
             $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
-            $requetePrepare->bindParam(':idFraisforfait', $unIdFrais, PDO::PARAM_STR);
             $requetePrepare->execute();
-        }
     }
-
-    
-    
-    
+        
     
     /**
      * Met à jour le nombre de justificatifs de la table ficheFrais
