@@ -59,9 +59,7 @@ case 'supprimerFrais':
 case 'supprimerFraisForfait':
    $idVisiteur = filter_input(INPUT_POST, 'idVisiteur', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
    $mois = filter_input(INPUT_POST, 'mois', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
-    
-        $pdo->supprimerFraisForfait($idVisiteur, $mois);
-
+   $pdo->supprimerFraisForfait($idVisiteur, $mois);
     break;
 }
 $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
