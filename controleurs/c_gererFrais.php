@@ -57,9 +57,10 @@ case 'supprimerFrais':
     break;
 
 case 'supprimerFraisForfait':
-   $idVisiteur = filter_input(INPUT_POST, 'idVisiteur', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
-   $mois = filter_input(INPUT_POST, 'mois', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
    $pdo->supprimerFraisForfait($idVisiteur, $mois);
+   $laDerniereFiche['idEtat'] = 'SS';
+   $pdo->creeNouvellesLignesFrais($idVisiteur, $mois);
+    
     break;
 }
 

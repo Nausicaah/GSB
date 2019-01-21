@@ -247,22 +247,16 @@ class PdoGsb
      */
     public function supprimerFraisForfait($idVisiteur, $mois)
     {
-        $lesCles = array_keys($mois);
-        foreach ($lesCles as $unmois) {
-            $qte = $mois[$unmois];
             $requetePrepare = PdoGSB::$monPdo->prepare(
-                'UPDATE lignefraisforfait '
-                . 'SET lignefraisforfait.quantite = :0 '
+                'DELETE FROM lignefraisforfait '
                 . 'WHERE lignefraisforfait.idvisiteur = :unIdVisiteur '
                 . 'AND lignefraisforfait.mois = :unMois '
             );
-            $requetePrepare->bindParam(':uneQte', $qte, PDO::PARAM_INT);
             $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
             $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
             $requetePrepare->execute();
-        }
     }
-        
+           
     
     /**
      * Met à jour le nombre de justificatifs de la table ficheFrais
@@ -358,6 +352,11 @@ class PdoGsb
         if ($laDerniereFiche['idEtat'] == 'CR') {
             $this->majEtatFicheFrais($idVisiteur, $dernierMois, 'CL');
         }
+        else if($laDerniereFiche['idEtat'] == 'MS')
+        {
+            $laDerniereFiche['idEtat'] = 'CR';
+        }
+        
         $requetePrepare = PdoGsb::$monPdo->prepare(
             'INSERT INTO fichefrais (idvisiteur,mois,nbjustificatifs,'
             . 'montantvalide,datemodif,idetat) '
