@@ -62,6 +62,7 @@ case 'supprimerFraisForfait':
    $pdo->supprimerFraisForfait($idVisiteur, $mois);
     break;
 }
+
 $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
 $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
 require 'vues/v_listeFraisForfait.php';

@@ -41,7 +41,7 @@
                 }
                 ?>
                 <button class="btn btn-success" type="submit">Ajouter</button>
-                <button class="btn btn-danger" type="reset"><a href="index.php?uc=gererFrais&action=supprimerFraisForfait&<?php echo $idVisiteur;?>&mois=<?php echo $numMois; ?>" onclick="return confirm('Voulez-vous vraiment supprimer ce frais?');">Effacer</a></button>
+                <button class="btn btn-danger" type="reset"><a href="index.php?uc=gererFrais&action=supprimerFraisForfait&<?php echo $idVisiteur;?>&mois=<?php echo $numAnnee, $numMois; ?>" onclick="return confirm('Voulez-vous vraiment supprimer ce frais?');">Effacer</a></button>
 
             </fieldset>
         </form>

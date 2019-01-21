@@ -96,7 +96,7 @@ class PdoGsb
     {
         $requetePrepare = PdoGsb::$monPdo->prepare(
             'SELECT visiteur.id AS id, visiteur.nom AS nom, '
-            . 'visiteur.prenom AS prenom '
+            . 'visiteur.prenom AS prenom, visiteur.grade AS grade '
             . 'FROM visiteur '
             . 'WHERE visiteur.login = :unLogin AND visiteur.mdp = :unMdp'
         );
@@ -247,14 +247,20 @@ class PdoGsb
      */
     public function supprimerFraisForfait($idVisiteur, $mois)
     {
+        $lesCles = array_keys($mois);
+        foreach ($lesCles as $unmois) {
+            $qte = $mois[$unmois];
             $requetePrepare = PdoGSB::$monPdo->prepare(
-                'DELETE lignefraisforfait '
+                'UPDATE lignefraisforfait '
+                . 'SET lignefraisforfait.quantite = :0 '
                 . 'WHERE lignefraisforfait.idvisiteur = :unIdVisiteur '
                 . 'AND lignefraisforfait.mois = :unMois '
             );
+            $requetePrepare->bindParam(':uneQte', $qte, PDO::PARAM_INT);
             $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
             $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
             $requetePrepare->execute();
+        }
     }
         
     

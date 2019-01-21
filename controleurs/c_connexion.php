@@ -35,8 +35,16 @@ case 'valideConnexion':
         $id = $visiteur['id'];
         $nom = $visiteur['nom'];
         $prenom = $visiteur['prenom'];
-        connecter($id, $nom, $prenom);
+        $grade = $visiteur['grade'];  
+        connecter($id, $nom, $prenom, $grade);
+        
+        if($grade == "c"){
+            include 'vues/v_accueilC.php';
+        }else{
+            include 'vues/v_accueil.php';
+        }
         header('Location: index.php');
+        
     }
     break;
 default:
