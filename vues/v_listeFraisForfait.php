@@ -25,6 +25,7 @@
               role="form">
             <fieldset>       
                 <?php
+ 
                 foreach ($lesFraisForfait as $unFrais) {
                     $idFrais = $unFrais['idfrais'];
                     $libelle = htmlspecialchars($unFrais['libelle']);
@@ -41,8 +42,11 @@
                 }
                 ?>
                 <button class="btn btn-success" type="submit">Ajouter</button>
-                <button class="btn btn-danger" type="reset"><a href="index.php?uc=gererFrais&action=supprimerFraisForfait&<?php echo $idVisiteur;?>&mois=<?php echo $numAnnee, $numMois; ?>" onclick="return confirm('Voulez-vous vraiment supprimer ce frais?');">Effacer</a></button>
-
+                
+                
+                
+                <a class="btn btn-danger" href="index.php?uc=gererFrais&action=supprimerFraisForfait&<?php echo $idVisiteur;?>&mois=<?php echo $numAnnee, $numMois; ?>" onclick="return confirm('Voulez-vous vraiment supprimer ce frais?');" role="button">Effacer</a>
+                
             </fieldset>
         </form>
     </div>

@@ -90,7 +90,7 @@ class PdoGsb
      * @param String $login Login du visiteur
      * @param String $mdp   Mot de passe du visiteur
      *
-     * @return l'id, le nom et le prénom sous la forme d'un tableau associatif
+     * @return l'id, le nom, le prénom et le grade sous la forme d'un tableau associatif
      */
     public function getInfosVisiteur($login, $mdp)
     {
@@ -236,9 +236,9 @@ class PdoGsb
 
     
      /**
-     * Supprime la table ligneFraisForfait
-     * Supprime la table ligneFraisForfait pour un visiteur et
-     * un mois donné en enregistrant les nouveaux montants
+     * Met à 0 la table ligneFraisForfait
+     * Met à 0 la table ligneFraisForfait pour un visiteur pour 
+     * le mois actuel en enregistrant les nouveaux montants
      *
      * @param String $idVisiteur ID du visiteur
      * @param String $mois       Mois sous la forme aaaamm

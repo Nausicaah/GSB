@@ -16,14 +16,11 @@
 
 if ($estConnecte && isset($grade)) 
     {
-    if ( $grade !== 'c'){
-        include 'vues/v_accueil.php';
+    if ($grade == "c"){
+        include 'vues/v_accueilC.php';
     }
-    else
-    {
-        if($grade =='c'){
-            include 'vues/v_accueilC.php';
-        }
+    else{
+       include 'vues/v_accueil.php';
     }
 } else {
     include 'vues/v_connexion.php';
