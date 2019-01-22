@@ -7,21 +7,26 @@
  * @category  PPE
  * @package   GSB
  * @author    Réseau CERTA <contact@reseaucerta.org>
- * @author    José GIL <jgil@ac-nice.fr>
+ * @author    Lise COLIN <jgil@ac-nice.fr>
  * @copyright 2017 Réseau CERTA
  * @license   Réseau CERTA
  * @version   GIT: <0>
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
 
-if ($estConnecte && isset($grade)) 
+//En cas de connexion
+if ($estConnecte) 
     {
-    if ($grade == "c"){
+    //Affichage de l'accueil comptable
+    if ($_SESSION['grade'] == 'c'){
         include 'vues/v_accueilC.php';
     }
-    else{
+    //Affichage de l'accueil visiteur
+    else if ($_SESSION['grade'] != 'c'){
        include 'vues/v_accueil.php';
     }
+    //Non connecté
 } else {
     include 'vues/v_connexion.php';
 }
+?>
