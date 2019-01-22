@@ -247,18 +247,17 @@ class PdoGsb
      */
     public function supprimerFraisForfait($idVisiteur, $mois)
     {
-        $lesFrais = getLesIdFrais();
+        $lesFrais = $this-> getLesIdFrais() ;
         $lesCles = array_keys($lesFrais);
+        
         foreach ($lesCles as $unIdFrais) {
             $requetePrepare = PdoGSB::$monPdo->prepare(
                 'UPDATE lignefraisforfait '
-                . 'SET lignefraisforfait.quantite = :0 '
+                . 'SET lignefraisforfait.quantite = 0 '
                 . 'WHERE lignefraisforfait.idvisiteur = :unIdVisiteur '
                 . 'AND lignefraisforfait.mois = :unMois '
-                . 'AND lignefraisforfaut.idfraisforfait = :unIdFrais'
             );
             $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
-            $requetePrepare->bindParam(':unIdFrais', $unIdFrais, PDO::PARAM_STR);
             $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
             $requetePrepare->execute();
     }}
