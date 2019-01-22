@@ -58,8 +58,6 @@ case 'supprimerFrais':
 
 case 'supprimerFraisForfait':
    $pdo->supprimerFraisForfait($idVisiteur, $mois);
-   $laDerniereFiche['idEtat'] = 'SS';
-   $pdo->creeNouvellesLignesFrais($idVisiteur, $mois);
     
     break;
 }

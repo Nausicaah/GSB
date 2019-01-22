@@ -247,15 +247,21 @@ class PdoGsb
      */
     public function supprimerFraisForfait($idVisiteur, $mois)
     {
+        $lesFrais = getLesIdFrais();
+        $lesCles = array_keys($lesFrais);
+        foreach ($lesCles as $unIdFrais) {
             $requetePrepare = PdoGSB::$monPdo->prepare(
-                'DELETE FROM lignefraisforfait '
+                'UPDATE lignefraisforfait '
+                . 'SET lignefraisforfait.quantite = :0 '
                 . 'WHERE lignefraisforfait.idvisiteur = :unIdVisiteur '
                 . 'AND lignefraisforfait.mois = :unMois '
+                . 'AND lignefraisforfaut.idfraisforfait = :unIdFrais'
             );
             $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+            $requetePrepare->bindParam(':unIdFrais', $unIdFrais, PDO::PARAM_STR);
             $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
             $requetePrepare->execute();
-    }
+    }}
            
     
     /**
@@ -351,12 +357,7 @@ class PdoGsb
         $laDerniereFiche = $this->getLesInfosFicheFrais($idVisiteur, $dernierMois);
         if ($laDerniereFiche['idEtat'] == 'CR') {
             $this->majEtatFicheFrais($idVisiteur, $dernierMois, 'CL');
-        }
-        else if($laDerniereFiche['idEtat'] == 'MS')
-        {
-            $laDerniereFiche['idEtat'] = 'CR';
-        }
-        
+        }        
         $requetePrepare = PdoGsb::$monPdo->prepare(
             'INSERT INTO fichefrais (idvisiteur,mois,nbjustificatifs,'
             . 'montantvalide,datemodif,idetat) '

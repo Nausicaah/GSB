@@ -38,7 +38,7 @@ case 'valideConnexion':
         $grade = $visiteur['grade'];  
         connecter($id, $nom, $prenom, $grade);
         
-        if($grade == "c"){
+        if($grade == 'c'){
             include 'vues/v_accueilC.php';
         }else{
             include 'vues/v_accueil.php';
