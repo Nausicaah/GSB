@@ -118,12 +118,11 @@ class PdoGsb
      * @return tous les champs des lignes de frais hors forfait sous la forme
      * d'un tableau associatif
      */
-    public function getLesFraisHorsForfait($idVisiteur, $mois)
-    {
+    public function getLesFraisHorsForfait($idVisiteur, $mois) {
         $requetePrepare = PdoGsb::$monPdo->prepare(
-            'SELECT * FROM lignefraishorsforfait '
-            . 'WHERE lignefraishorsforfait.idvisiteur = :unIdVisiteur '
-            . 'AND lignefraishorsforfait.mois = :unMois'
+                'SELECT * FROM lignefraishorsforfait '
+                . 'WHERE lignefraishorsforfait.idvisiteur = :unIdVisiteur '
+                . 'AND lignefraishorsforfait.mois = :unMois'
         );
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
@@ -137,6 +136,26 @@ class PdoGsb
     }
 
     /**
+     * Fonction qui retourne la liste des visiteurs
+     *
+     * @param PDO $pdo instance de la classe PDO utilisée pour se connecter
+     *
+     * @return Array de visiteurs
+     */
+    public function getLesVisiteurs() {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+                 'SELECT visiteur.id AS id, visiteur.nom AS nom, '
+                . 'visiteur.prenom AS prenom, visiteur.grade AS grade '
+                . 'FROM visiteur '
+                . 'ORDER BY visiteur.nom ASC'
+                
+        );
+        $requetePrepare->execute();
+        return $requetePrepare->fetchAll();
+ 
+    }
+
+    /**
      * Retourne le nombre de justificatif d'un visiteur pour un mois donné
      *
      * @param String $idVisiteur ID du visiteur
@@ -144,11 +163,10 @@ class PdoGsb
      *
      * @return le nombre entier de justificatifs
      */
-    public function getNbjustificatifs($idVisiteur, $mois)
-    {
+    public function getNbjustificatifs($idVisiteur, $mois) {
         $requetePrepare = PdoGsb::$monPdo->prepare(
-            'SELECT fichefrais.nbjustificatifs as nb FROM fichefrais '
-            . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
+                'SELECT fichefrais.nbjustificatifs as nb FROM fichefrais '
+                . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
             . 'AND fichefrais.mois = :unMois'
         );
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
