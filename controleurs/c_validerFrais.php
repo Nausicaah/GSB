@@ -19,12 +19,15 @@ $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 switch ($action) {
     
     case 'selectionnerVisiteur':
-        $lesVisiteur = $pdo->getLesVisiteurs();
+        $lesVisiteurs = $pdo->getLesVisiteurs();
         include 'vues/v_listeVisiteurs.php';
         break;
-    
-    case 'TODO':
-        break;
-        
 
+    case 'selectionnerMois':
+        $lesVisiteurs = $pdo->getLesVisiteurs();
+        $visiteurASelectionner = filter_input(INPUT_POST, 'lstVisiteurs', FILTER_SANITIZE_STRING);
+        include 'vues/v_listeVisiteurs.php'; // Pour afficher de nouveau le choix fait à l'étape précédente
+        $lesMois = $pdo->getLesMoisDisponibles($visiteurASelectionner);
+        include 'vues/v_listeMoisC.php';
+        break;
 }

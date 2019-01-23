@@ -135,25 +135,6 @@ class PdoGsb
         return $lesLignes;
     }
 
-    /**
-     * Fonction qui retourne la liste des visiteurs
-     *
-     * @param PDO $pdo instance de la classe PDO utilisée pour se connecter
-     *
-     * @return Array de visiteurs
-     */
-    public function getLesVisiteurs() {
-        $requetePrepare = PdoGSB::$monPdo->prepare(
-                 'SELECT visiteur.id AS id, visiteur.nom AS nom, '
-                . 'visiteur.prenom AS prenom, visiteur.grade AS grade '
-                . 'FROM visiteur '
-                . 'ORDER BY visiteur.nom ASC'
-                
-        );
-        $requetePrepare->execute();
-        return $requetePrepare->fetchAll();
- 
-    }
 
     /**
      * Retourne le nombre de justificatif d'un visiteur pour un mois donné
@@ -535,4 +516,21 @@ class PdoGsb
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
+    
+    /**
+     * Fonction qui retourne la liste des visiteurs
+     * Appel : $instancePdoGsb = PdoGsb::getPdoGsb();
+     *
+     * @return Array de visiteurs
+     */
+    public function getLesVisiteurs() {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+                 'SELECT visiteur.id AS id, visiteur.nom AS nom, '
+                . 'visiteur.prenom AS prenom, visiteur.grade AS grade '
+                . 'FROM visiteur '
+                . 'ORDER BY visiteur.nom, visiteur.prenom'   
+        );
+        $requetePrepare->execute();
+        return $requetePrepare->fetchAll();
+        }
 }

@@ -20,30 +20,36 @@
         <form action="index.php?uc=validerFrais&action=selectionnerVisiteur" 
               method="post" role="form">
             <div class="form-group">
-                <label for="lstVisiteurs" accesskey="n">Selectionner le visiteur : </label>
+                <label for="lstVisiteurs">Selectionner le visiteur : </label>
                 <select id="lstVisiteurs" name="lstVisiteurs" class="form-control">
                     <?php
                     //Affichage de chaque visiteur
                     foreach ($lesVisiteur as $unVisiteur) {
-                        //récupération des données
+                        //Récupération des données
                         $id = $unVisiteur['id'];
                         $nom = $unVisiteur['nom'];
                         $prenom = $unVisiteur['prenom'];
                         $grade = $unVisiteur['grade'];
-                        ?>
-                        <?php
+
                         //Retire les membres de la DB non visiteurs (comptables)
                         if ($grade != 'c') {
-                            ?>
-                            <!-- Affiche les options, triées par nom, puis affiche les prénoms -->
-                            <option value="<?php echo $id ?>">
-                                <?php echo $nom . ' ' . $prenom ?> </option>
-                            <?php
+                            if ($id == $visiteurASelectionner) {
+                                ?>
+                                <!-- Affiche les options, triées par nom, puis affiche les prénoms -->
+                                <option selected value="<?php echo $id ?>">
+                                    <?php echo $nom . ' ' . $prenom ?> </option>
+                                <?php
+                            } else {
+                                ?>
+                                <option value="<?php echo $id ?>">
+                                    <?php echo $nom . ' ' . $prenom ?> </option>
+                                <?php
+                            }
                         }
                     }
-                    ?>    
-
+                    ?>
                 </select>
+                 <a class="btn btn-info" href="index.php?uc=validerFrais&action=selectionnerMois" role="button">Valider</a>
             </div>
         </form>
     </div>
