@@ -48,7 +48,7 @@
                         }
                     }
                     ?>
-                                
+
                 </select>
             </div>
             <input class="btn btn-info" value="✓" href="index.php?uc=validerFrais&action=selectionnerMois" role="button" type="submit">

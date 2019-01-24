@@ -14,33 +14,32 @@
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
 ?>
-    <div class="col-md-4">
-        <form action="index.php?uc=validerFrais&action=selectionnerVisiteur" 
-              method="post" role="form">
-            <div class="form-group">
-                <label for="lstMois">Mois disponibles : </label>
-                <select id="lstMois" name="lstMois" class="form-control">
-                    <?php
-                    foreach ($lesMois as $unMois) {
-                        $mois = $unMois['mois'];
-                        $numAnnee = $unMois['numAnnee'];
-                        $numMois = $unMois['numMois'];
-                        if ($mois == $moisASelectionner) {
-                            ?>
-                            <option selected value="<?php echo $mois ?>">
-                                <?php echo $numMois . '/' . $numAnnee ?> </option>
-                            <?php
-                        } else {
-                            ?>
-                            <option value="<?php echo $mois ?>">
-                                <?php echo $numMois . '/' . $numAnnee ?> </option>
-                            <?php
-                        }
+<div class="col-md-4">
+    <form action="index.php?uc=validerFrais&action=afficherFrais" 
+          method="post" role="form">
+        <div class="form-group">
+            <label for="lstMoisC">Mois disponibles : </label>
+            <select id="lstMoisC" name="lstMoisC" class="form-control">
+                <?php
+                foreach ($lesMois as $unMois) {
+                    $mois = $unMois['mois'];
+                    $numAnnee = $unMois['numAnnee'];
+                    $numMois = $unMois['numMois'];
+                    if ($mois == $moisASelectionner) {
+                        ?>
+                        <option selected value="<?php echo $mois ?>">
+                            <?php echo $numMois . '/' . $numAnnee ?> </option>
+                        <?php
+                    } else {
+                        ?>
+                        <option value="<?php echo $mois ?>">
+                            <?php echo $numMois . '/' . $numAnnee ?> </option>
+                        <?php
                     }
-                    ?>    
-
-                </select>
-            </div>
-        </form>
-    </div>
+                }
+                ?>
+            </select>
+        </div>
+        <input class="btn btn-info" value="✓" href="index.php?uc=validerFrais&action=afficherFrais" role="button" type="submit">
+    </form>
 </div>

@@ -34,7 +34,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-12 col-md-12">
-                        <a href="index.php?uc=validerFrais&action=selectionnerVisiteur"
+                        <a href="index.php?uc=validerFrais&action=selectionnerMois"
                            class="btn btn-success btn-lg" role="button">
                             <span class="glyphicon glyphicon-pencil"></span>
                             <br>Valider fiches de frais</a>
