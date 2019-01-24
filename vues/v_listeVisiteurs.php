@@ -17,14 +17,14 @@
 <div class="row">
     <div class="col-md-4">
         <!-- Uc validerFrais + action selectionnerVisiter (comptable uniquement) -->
-        <form action="index.php?uc=validerFrais&action=selectionnerVisiteur" 
+        <form action="index.php?uc=validerFrais&action=selectionnerMois" 
               method="post" role="form">
             <div class="form-group">
                 <label for="lstVisiteurs">Selectionner le visiteur : </label>
                 <select id="lstVisiteurs" name="lstVisiteurs" class="form-control">
                     <?php
                     //Affichage de chaque visiteur
-                    foreach ($lesVisiteur as $unVisiteur) {
+                    foreach ($lesVisiteurs as $unVisiteur) {
                         //Récupération des données
                         $id = $unVisiteur['id'];
                         $nom = $unVisiteur['nom'];
@@ -48,9 +48,10 @@
                         }
                     }
                     ?>
+                                
                 </select>
-                 <a class="btn btn-info" href="index.php?uc=validerFrais&action=selectionnerMois" role="button">Valider</a>
             </div>
+            <input class="btn btn-info" value="✓" href="index.php?uc=validerFrais&action=selectionnerMois" role="button" type="submit">
         </form>
     </div>
 </div>

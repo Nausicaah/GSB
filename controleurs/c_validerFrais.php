@@ -26,6 +26,7 @@ switch ($action) {
     case 'selectionnerMois':
         $lesVisiteurs = $pdo->getLesVisiteurs();
         $visiteurASelectionner = filter_input(INPUT_POST, 'lstVisiteurs', FILTER_SANITIZE_STRING);
+        var_dump($visiteurASelectionner);
         include 'vues/v_listeVisiteurs.php'; // Pour afficher de nouveau le choix fait à l'étape précédente
         $lesMois = $pdo->getLesMoisDisponibles($visiteurASelectionner);
         include 'vues/v_listeMoisC.php';
