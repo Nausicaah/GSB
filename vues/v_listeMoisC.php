@@ -40,6 +40,8 @@
                 ?>
             </select>
         </div>
+        <input name="lstVisiteurs" value="<?php echo $visiteurASelectionner; ?>" type="hidden">
         <input class="btn btn-info" value="✓" href="index.php?uc=validerFrais&action=afficherFrais" role="button" type="submit">
     </form>
 </div>
+

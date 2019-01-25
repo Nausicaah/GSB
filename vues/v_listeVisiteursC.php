@@ -19,9 +19,13 @@
         <!-- Uc validerFrais + action selectionnerVisiter (comptable uniquement) -->
         <form action="index.php?uc=validerFrais&action=selectionnerMois" 
               method="post" role="form">
+            <input nam="uc" value="validerFrais" type="hidden"/>
+            <input name="action" value="selectionnerVisiteur" type="hidden"/>
             <div class="form-group">
                 <label for="lstVisiteurs">Selectionner le visiteur : </label>
                 <select id="lstVisiteurs" name="lstVisiteurs" class="form-control">
+                    <!-- Pas de visiteur par défaut -->
+                    <option>/</option>
                     <?php
                     //Affichage de chaque visiteur
                     foreach ($lesVisiteurs as $unVisiteur) {
@@ -36,7 +40,7 @@
                             if ($id == $visiteurASelectionner) {
                                 ?>
                                 <!-- Affiche les options, triées par nom, puis affiche les prénoms -->
-                                <option selected value="<?php echo $id ?>">
+                                <option selected="<?php echo $id ?>">
                                     <?php echo $nom . ' ' . $prenom ?> </option>
                                 <?php
                             } else {
@@ -55,3 +59,4 @@
         </form>
     </div>
 </div>
+<br>
