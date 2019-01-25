@@ -18,18 +18,12 @@ $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 
 switch ($action) {
     
-    //Affiche la vue des visiteurs
-    case 'selectionnerVisiteur':
-        $lesVisiteurs = $pdo->getLesVisiteurs();
-        include 'vues/v_listeVisiteurs.phpC';
-        break;
 
     //Affiche la vue du mois
     case 'selectionnerMois':
         //Récupère les informations visiteurs
         $lesVisiteurs = $pdo->getLesVisiteurs();
         $visiteurASelectionner = filter_input(INPUT_POST, 'lstVisiteurs', FILTER_SANITIZE_STRING);
-        include 'vues/v_listeVisiteursC.php'; 
         //Affiche la liste des mois
         $lesMois = $pdo->getLesMoisDisponibles($visiteurASelectionner);
         include 'vues/v_listeMoisC.php';
@@ -39,8 +33,7 @@ switch ($action) {
     case 'afficherFrais':
         //Récupère infos visiteurs sélectionné
         $lesVisiteurs = $pdo->getLesVisiteurs();
-        $visiteurASelectionner = filter_input(INPUT_POST, 'lstVisiteurs', FILTER_SANITIZE_STRING);
-        include 'vues/v_listeVisiteursC.php'; 
+        $visiteurASelectionner = filter_input(INPUT_POST, 'lstVisiteurs', FILTER_SANITIZE_STRING);        
         
         //Récupère infos mois sélectionné
         $lesMois = $pdo->getLesMoisDisponibles($visiteurASelectionner);
@@ -50,6 +43,7 @@ switch ($action) {
         //Changement des nom des variables
         $idVisiteur = $visiteurASelectionner;
         $idMois = $moisASelectionner;
+
         
         
         //Utilisation des fonctions afin de pouvoir afficher les données sélectionnées
@@ -59,7 +53,9 @@ switch ($action) {
         $nbJustificatifs = $pdo->getNbJustificatifs($idVisiteur, $idMois);
         
         
-        include 'vues/v_listeFraisC.php';
+        include 'vues/v_listeFraisForfaitC.php';
+        include 'vues/v_listeFraisHorsForfaitC.php';
+        include 'vues/v_listeNbJustificatifsC.php';
         
         
         
