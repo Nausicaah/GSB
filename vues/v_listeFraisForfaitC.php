@@ -16,6 +16,8 @@
 ?>
 
 <div class="row">    
+                    <input name="lstVisiteurs" value="<?php echo $visiteurASelectionner; ?>" type="hidden">
+                <input name="lstMoisC" value="<?php echo $moisASelectionner; ?>" type="hidden">
     <br>
     <hr>
     <h2>Valider la fiche de frais</h2>
@@ -46,8 +48,6 @@
                 <button class="btn btn-success" type="submit" onclick="return confirm('Les frais ont bien été modifiés.');"
                         href="index.php?uc=validerFrais&action=validerMajFraisForfaitC">Corriger</button>
                 <button class="btn btn-danger" type="reset">Réinitialiser</button>
-                <input name="lstVisiteurs" value="<?php echo $visiteurASelectionner; ?>" type="hidden">
-                <input name="lstMoisC" value="<?php echo $moisASelectionner; ?>" type="hidden">
             </fieldset>
         </form>
     </div>

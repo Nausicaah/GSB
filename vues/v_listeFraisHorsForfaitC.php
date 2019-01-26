@@ -16,70 +16,42 @@
 ?>
 <br>
 <div class="row">
-    <form method="post" 
-          action="index.php?uc=gererFrais&action=validerMajFraisHorsForfait" 
-          role="form"
-          <div class="panel panel-info">
-            <div class="panel-heading">Descriptif des éléments hors forfait</div>
-            <table class="table table-bordered table-responsive">
-                <thead>
-                    <tr>
-                        <th class="date">Date</th>
-                        <th class="libelle">Libellé</th>  
-                        <th class="montant">Montant</th>  
-                        <th class="action">&nbsp;</th> 
-                    </tr>
-                </thead>  
-                <tbody>
-                    <?php
-                    foreach ($lesFraisHorsForfait as $unFraisHorsForfait) {
-                        $libelle = htmlspecialchars($unFraisHorsForfait['libelle']);
-                        $date = $unFraisHorsForfait['date'];
-                        $montant = $unFraisHorsForfait['montant'];
-                        $id = $unFraisHorsForfait['id'];
-                        ?>           
-                        <tr>
-                            <td>
-                                <div class="form-group">
-                                    <input type="text" id="idFrais" 
-                                           name="lesFrais[<?php echo $idFrais ?>]"
-                                           size="3" maxlength="10" 
-                                           value="<?php echo $date ?>" 
-                                           class="form-control">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="form-group">
-                                    <input type="text" id="idFrais" 
-                                           name="lesFrais[<?php echo $idFrais ?>]"
-                                           size="3" maxlength="10" 
-                                           value="<?php echo $libelle ?>" 
-                                           class="form-control">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="form-group">
-                                    <input type="text" id="idFrais" 
-                                           name="lesFrais[<?php echo $idFrais ?>]"
-                                           size="3" maxlength="10" 
-                                           value="<?php echo $montant ?>" 
-                                           class="form-control">
-                                </div>
-                            </td>
-                            <td><button class="btn btn-success" type="submit" href="index.php?uc=validerFrais&action=corrigerHorsForfaitC">Corriger</button>
-                                <button class="btn btn-danger" type="reset">Réinitialiser</button>
-                        </tr>
-                        <?php
-                    }
-                    ?>
-                <input name="lstVisiteurs" value="<?php echo $visiteurASelectionner; ?>" type="hidden">
+    <input name="lstVisiteurs" value="<?php echo $visiteurASelectionner; ?>" type="hidden">
                 <input name="lstMoisC" value="<?php echo $moisASelectionner; ?>" type="hidden">
-                </tbody>  
-            </table>
-        </div>
-    </form>
+    <div class="panel panel-info">
+        <div class="panel-heading">Descriptif des éléments hors forfait</div>
+        <table class="table table-bordered table-responsive">
+            <thead>
+                <tr>
+                    <th class="date">Date</th>
+                    <th class="libelle">Libellé</th>  
+                    <th class="montant">Montant</th>  
+                    <th class="action">&nbsp;</th> 
+                </tr>
+            </thead>  
+            <tbody>
+            <?php
+            foreach ($lesFraisHorsForfait as $unFraisHorsForfait) {
+                $libelle = htmlspecialchars($unFraisHorsForfait['libelle']);
+                $date = $unFraisHorsForfait['date'];
+                $montant = $unFraisHorsForfait['montant'];
+                $id = $unFraisHorsForfait['id']; ?>           
+                <tr>
+                    <td> <?php echo $date ?></td>
+                    <td> <?php echo $libelle ?></td>
+                    <td><?php echo $montant ?></td>
+                    <td><a href="index.php?uc=validerFrais&action=supprimerFrais&idFrais=<?php echo $id ?>" 
+                           onclick="return confirm('Voulez-vous vraiment supprimer ce frais?');">Supprimer ce frais</a></td>
+                </tr>
+                <?php
+            }
+            ?>
+            </tbody>  
+        </table>
+    </div>
+</div>
 
-    <div class="row">
+<div class="row">
         <form method="post" 
               action="index.php?uc=gererFrais&action=validerMajFraisForfait" 
               role="form">
@@ -102,4 +74,4 @@
                 </fieldset>
             </div>
         </form>
-    </div>
+
