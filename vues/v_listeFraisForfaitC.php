@@ -19,11 +19,11 @@
     <br>
     <hr>
     <h2>Valider la fiche de frais</h2>
-    Fiche de <?php echo $nom, ' ', $prenom ?>, pour le mois de <?php echo $idMois ?>.
+    Fiche de <?php echo $nom, ' ', $prenom ?>, pour le mois de <?php echo $numMois, '/', $numAnnee ?>.
     <h3>Eléments forfaitisés</h3>
     <div class="col-md-4">
         <form method="post" 
-              action="index.php?uc=gererFrais&action=validerMajFraisForfait" 
+              action="index.php?uc=validerFrais&action=validerMajFraisForfaitC" 
               role="form">
             <fieldset>       
                 <?php
@@ -43,8 +43,15 @@
                     <?php
                 }
                 ?>
-                <button class="btn btn-success" type="submit">Corriger</button>
-                <a class="btn btn-danger" href="index.php?uc=validerFrais&action=supprimerFraisForfait&<?php echo $idVisiteur; ?>&mois=<?php echo $numAnnee, $numMois; ?>" onclick="return confirm('Voulez-vous vraiment supprimer ce frais?');" role="button">Réinitialiser</a>
+                <button class="btn btn-success" type="submit" 
+
+                        onclick="return confirm('Frais mis à jour');"
+                        href="index.php?uc=validerFrais&action=validerMAJFraisForfait="
+                        >Corriger</button>
+                <button class="btn btn-danger" type="reset"
+                        >Réinitialiser</button>
+                <input name="lstVisiteurs" value="<?php echo $visiteurASelectionner; ?>" type="hidden">
+                <input name="lstMoisC" value="<?php echo $moisASelectionner; ?>" type="hidden">
             </fieldset>
         </form>
     </div>

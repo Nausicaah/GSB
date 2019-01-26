@@ -533,4 +533,35 @@ class PdoGsb
         $requetePrepare->execute();
         return $requetePrepare->fetchAll();
         }
+        
+        /**
+      
+         */
+        
+        public function getPrenom($idVisiteur) {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+                'SELECT prenom '
+                . 'FROM visiteur '
+                . 'WHERE visiteur.id = :unIdVisiteur'
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch();
+        $prenom = $laLigne['prenom'];
+        return $prenom;}
+        
+        public function getNom($idVisiteur) {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+                'SELECT nom '
+                . 'FROM visiteur '
+                . 'WHERE visiteur.id = :unIdVisiteur'
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch();
+        $nom = $laLigne['nom'];
+        return $nom;
+    }
 }
