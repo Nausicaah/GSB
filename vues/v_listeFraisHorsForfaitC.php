@@ -15,10 +15,14 @@
  */
 ?>
 <br>
-<div class="row">
-    <input name="lstVisiteurs" value="<?php echo $visiteurASelectionner; ?>" type="hidden">
-                <input name="lstMoisC" value="<?php echo $moisASelectionner; ?>" type="hidden">
-    <div class="panel panel-info">
+<div class="row">    
+
+    <div class="col-md-10">
+        <form method="post" 
+              action="index.php?uc=validerFrais&action=a" 
+              role="form">
+            <fieldset>       
+                <div class="panel panel-info">
         <div class="panel-heading">Descriptif des éléments hors forfait</div>
         <table class="table table-bordered table-responsive">
             <thead>
@@ -40,7 +44,7 @@
                     <td> <?php echo $date ?></td>
                     <td> <?php echo $libelle ?></td>
                     <td><?php echo $montant ?></td>
-                    <td><a href="index.php?uc=validerFrais&action=supprimerFrais&idFrais=<?php echo $id ?>" 
+                    <td><a href="index.php?uc=gererFrais&action=supprimerFrais&idFrais=<?php echo $id ?>" 
                            onclick="return confirm('Voulez-vous vraiment supprimer ce frais?');">Supprimer ce frais</a></td>
                 </tr>
                 <?php
@@ -49,29 +53,9 @@
             </tbody>  
         </table>
     </div>
-</div>
-
-<div class="row">
-        <form method="post" 
-              action="index.php?uc=gererFrais&action=validerMajFraisForfait" 
-              role="form">
-            <h3>Justificatifs</h3>
-            <div class="col-md-4">
-                <fieldset>      
-
-                    <div class="form-group">
-                        <label for="nbJustificatifs">Nombres de justificatifs : </label>
-                        <input type="text" id="nbJustificatifs" 
-                               size="2"
-                               value="<?php echo $nbJustificatifs ?>" 
-                               class="form-control">
-                    </div>
-                    <button class="btn btn-success" type="submit"
-                            href="index.php?uc=validerFrais&action=validerMajNbJustificatifs">Corriger</button>
-                    <button class="btn btn-danger" type="reset">Réinitialiser</button>
-                    <input name="lstVisiteurs" value="<?php echo $visiteurASelectionner; ?>" type="hidden">
-                    <input name="lstMoisC" value="<?php echo $moisASelectionner; ?>" type="hidden">
-                </fieldset>
-            </div>
+            </fieldset>
+            <input name="lstVisiteurs" value="<?php echo $visiteurASelectionner; ?>" type="hidden">
+            <input name="lstMoisC" value="<?php echo $moisASelectionner; ?>" type="hidden">
         </form>
-
+    </div>
+</div>
