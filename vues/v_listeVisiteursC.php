@@ -18,12 +18,12 @@
     <div class="col-md-4">
         <!-- Uc validerFrais + action selectionnerVisiter (comptable uniquement) -->
         <form action="index.php?uc=validerFrais&action=selectionnerMois" 
-              method="post" role="form">
+              method="post" role="form" id="test" >
             <input nam="uc" value="validerFrais" type="hidden"/>
             <input name="action" value="selectionnerVisiteur" type="hidden"/>
             <div class="form-group">
                 <label for="lstVisiteurs">Selectionner le visiteur : </label>
-                <select id="lstVisiteurs" name="lstVisiteurs" class="form-control">
+                <select id="lstVisiteurs" name="lstVisiteurs" class="form-control" onchange="submit();">
                     <!-- Pas de visiteur par défaut -->
                     <option>/</option>
                     <?php

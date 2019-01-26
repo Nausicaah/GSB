@@ -43,13 +43,9 @@
                     <?php
                 }
                 ?>
-                <button class="btn btn-success" type="submit" 
-
-                        onclick="return confirm('Frais mis à jour');"
-                        href="index.php?uc=validerFrais&action=validerMAJFraisForfait="
-                        >Corriger</button>
-                <button class="btn btn-danger" type="reset"
-                        >Réinitialiser</button>
+                <button class="btn btn-success" type="submit" onclick="return confirm('Les frais ont bien été modifiés.');"
+                        href="index.php?uc=validerFrais&action=validerMajFraisForfaitC">Corriger</button>
+                <button class="btn btn-danger" type="reset">Réinitialiser</button>
                 <input name="lstVisiteurs" value="<?php echo $visiteurASelectionner; ?>" type="hidden">
                 <input name="lstMoisC" value="<?php echo $moisASelectionner; ?>" type="hidden">
             </fieldset>

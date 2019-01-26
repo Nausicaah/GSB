@@ -57,7 +57,6 @@ switch ($action) {
         $nbJustificatifs = $pdo->getNbJustificatifs($idVisiteur, $idMois);
         include 'vues/v_listeFraisForfaitC.php';
         include 'vues/v_listeFraisHorsForfaitC.php';
-        include 'vues/v_listeNbJustificatifsC.php';
 
         break;
     
@@ -86,13 +85,14 @@ switch ($action) {
         $nbJustificatifs = $pdo->getNbJustificatifs($idVisiteur, $idMois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $idMois);
         
+        //Récupération des nouveaux frais
         $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
         $pdo->majFraisForfait($idVisiteur, $idMois, $lesFrais);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $idMois);
         include 'vues/v_listeFraisForfaitC.php';
         include 'vues/v_listeFraisHorsForfaitC.php';
-        include 'vues/v_listeNbJustificatifsC.php';
 
         break;
-        
+
+    break;
 }
