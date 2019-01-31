@@ -19,7 +19,7 @@
 
     <div class="col-md-10">
         <form method="post" 
-              action="index.php?uc=validerFrais&action=a" 
+              action="index.php?uc=validerFrais&action=modifierFraisHorsForfait" 
               role="form">
             <fieldset>       
                 <div class="panel panel-info">
@@ -44,7 +44,7 @@
                     <td> <?php echo $date ?></td>
                     <td> <?php echo $libelle ?></td>
                     <td><?php echo $montant ?></td>
-                    <td><a href="index.php?uc=gererFrais&action=supprimerFrais&idFrais=<?php echo $id ?>" 
+                    <td><a href="index.php?uc=validerFrais&action=refuserFrais&idFrais=<?php echo $id ?>" 
                            onclick="return confirm('Voulez-vous vraiment supprimer ce frais?');">Supprimer ce frais</a></td>
                 </tr>
                 <?php

@@ -534,9 +534,12 @@ class PdoGsb
         return $requetePrepare->fetchAll();
         }
         
-        /**
-      
-         */
+    /**
+     * Fonction qui retourne la liste des visiteurs
+     * Appel : $instancePdoGsb = PdoGsb::getPdoGsb();
+     *
+     * @return Array de visiteurs
+     */
         
         public function getPrenom($idVisiteur) {
         $requetePrepare = PdoGSB::$monPdo->prepare(
@@ -551,6 +554,13 @@ class PdoGsb
         $prenom = $laLigne['prenom'];
         return $prenom;}
         
+            /**
+     * Fonction qui retourne la liste des visiteurs
+     * Appel : $instancePdoGsb = PdoGsb::getPdoGsb();
+     *
+     * @return Array de visiteurs
+     */
+        
         public function getNom($idVisiteur) {
         $requetePrepare = PdoGSB::$monPdo->prepare(
                 'SELECT nom '
@@ -563,5 +573,25 @@ class PdoGsb
         $laLigne = $requetePrepare->fetch();
         $nom = $laLigne['nom'];
         return $nom;
+    }
+    
+    
+    
+    /**
+     * Supprime le frais hors forfait dont l'id est passé en argument
+     *
+     * @param String $idFrais ID du frais
+     *
+     * @return null
+     */
+    public function refuserFraisHorsForfait($idFrais)
+    {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+            'UPDATE lignefraishorsforfait'
+            . ' SET lignefraishorsforfait.libelle = CONCAT("REFUSE ", libelle)'
+            . 'WHERE lignefraishorsforfait.id = :unIdFrais'
+        );
+        $requetePrepare->bindParam(':unIdFrais', $idFrais, PDO::PARAM_STR);
+        $requetePrepare->execute();
     }
 }

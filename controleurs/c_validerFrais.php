@@ -92,7 +92,7 @@ switch ($action) {
         include 'vues/v_listeFraisHorsForfaitC.php';
         break;
     
-    case 'a':
+    case 'modifierFraisHorsForfait':
         
         //Récupère infos visiteurs sélectionné
         $lesVisiteurs = $pdo->getLesVisiteurs();
@@ -119,5 +119,11 @@ switch ($action) {
         include 'vues/v_listeFraisForfaitC.php';
         include 'vues/v_listeFraisHorsForfaitC.php';
         break;
+    
+    case 'refuserFrais':
+    $idFrais = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_STRING);
+    $pdo->refuserFraisHorsForfait($idFrais);
+
+    break;
 
 }
