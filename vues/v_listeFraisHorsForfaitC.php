@@ -17,11 +17,7 @@
 <br>
 <div class="row">    
 
-    <div class="col-md-10">
-        <form method="post" 
-              action="index.php?uc=validerFrais&action=modifierFraisHorsForfait" 
-              role="form">
-            <fieldset>       
+    <div class="col-md-10">    
                 <div class="panel panel-info">
         <div class="panel-heading">Descriptif des éléments hors forfait</div>
         <table class="table table-bordered table-responsive">
@@ -35,6 +31,7 @@
             </thead>  
             <tbody>
             <?php
+            var_dump($visiteurASelectionner);
             foreach ($lesFraisHorsForfait as $unFraisHorsForfait) {
                 $libelle = htmlspecialchars($unFraisHorsForfait['libelle']);
                 $date = $unFraisHorsForfait['date'];
@@ -44,7 +41,7 @@
                     <td> <?php echo $date ?></td>
                     <td> <?php echo $libelle ?></td>
                     <td><?php echo $montant ?></td>
-                    <td><a href="index.php?uc=validerFrais&action=refuserFrais&idFrais=<?php echo $id ?>" 
+                    <td><a type="submit" href="index.php?uc=validerFrais&action=refuserFrais&idFrais=<?php echo $id ?>&lstVisiteurs=<?php echo $visiteurASelectionner ?>&lstMoisC=<?php echo $moisASelectionner ?>" 
                            onclick="return confirm('Voulez-vous vraiment supprimer ce frais?');">Supprimer ce frais</a></td>
                 </tr>
                 <?php
@@ -53,9 +50,8 @@
             </tbody>  
         </table>
     </div>
-            </fieldset>
             <input name="lstVisiteurs" value="<?php echo $visiteurASelectionner; ?>" type="hidden">
             <input name="lstMoisC" value="<?php echo $moisASelectionner; ?>" type="hidden">
-        </form>
+
     </div>
 </div>

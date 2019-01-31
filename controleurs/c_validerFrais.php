@@ -96,11 +96,10 @@ switch ($action) {
         
         //Récupère infos visiteurs sélectionné
         $lesVisiteurs = $pdo->getLesVisiteurs();
-        $visiteurASelectionner = filter_input(INPUT_POST, 'lstVisiteurs', FILTER_SANITIZE_STRING);
-
+        $visiteurASelectionner = filter_input(INPUT_GET, 'lstVisiteurs', FILTER_SANITIZE_STRING);
         //Récupère infos mois sélectionné
         $lesMois = $pdo->getLesMoisDisponibles($visiteurASelectionner);
-        $moisASelectionner = filter_input(INPUT_POST, 'lstMoisC', FILTER_SANITIZE_STRING);
+        $moisASelectionner = filter_input(INPUT_GET, 'lstMoisC', FILTER_SANITIZE_STRING);
         include 'vues/v_listeMoisC.php';
 
         //Récupération d'informations à afficher
@@ -121,9 +120,12 @@ switch ($action) {
         break;
     
     case 'refuserFrais':
+    //récupération des informations sur les 
     $idFrais = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_STRING);
+    $visiteurASelectionner = filter_input(INPUT_GET, 'lstVisiteurs', FILTER_SANITIZE_STRING);
+    $moisASelectionner = filter_input(INPUT_GET, 'lstMoisC', FILTER_SANITIZE_STRING);
     $pdo->refuserFraisHorsForfait($idFrais);
-
+    header("Location: index.php?uc=validerFrais&action=modifierFraisHorsForfait& lstVisiteurs=".$visiteurASelectionner.'&lstMoisC='.$moisASelectionner);
     break;
 
 }
