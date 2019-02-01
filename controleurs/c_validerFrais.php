@@ -20,7 +20,10 @@ $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 switch ($action) {
 
 
-    //Affiche la vue du mois
+    /**
+     * Affiche la vue du mois, avec la sélection du visiteur PUIS la sélection du mois 
+     * (affiche que les mois dispos)
+     */
     case 'selectionnerMois':
         //Récupère les informations visiteurs
         $lesVisiteurs = $pdo->getLesVisiteurs();
@@ -30,7 +33,10 @@ switch ($action) {
         include 'vues/v_listeMoisC.php';
         break;
 
-    //Affiche les frais du $visiteurASelectionner et du $moisASelectionner
+    /**
+     * Affiche tous les frais forfaits et non forfaits pour le visiteur sélectionné
+     * Garde en mémoire les infos entrées précedemment
+     */
     case 'afficherFrais':
         //Récupère infos visiteurs sélectionné
         $lesVisiteurs = $pdo->getLesVisiteurs();
@@ -59,7 +65,11 @@ switch ($action) {
         include 'vues/v_listeNbJustificatifsC.php';
 
         break;
-
+    
+    /**
+     * Valide en cas de changement pour les frais forfaitisés
+     * Garde en mémoire les infos entrées précedemment
+     */
     case 'validerMajFraisForfaitC':
 
         //Récupère infos visiteurs sélectionné
@@ -94,8 +104,12 @@ switch ($action) {
         include 'vues/v_listeNbJustificatifsC.php';
         break;
     
+    /**
+     * case utilisée avec refuser frais
+     * Garde en mémoire les infos entrées précedemment
+     */
     case 'modifierFraisHorsForfait':
-        
+
         //Récupère infos visiteurs sélectionné
         $lesVisiteurs = $pdo->getLesVisiteurs();
         $visiteurASelectionner = filter_input(INPUT_GET, 'lstVisiteurs', FILTER_SANITIZE_STRING);
@@ -121,18 +135,27 @@ switch ($action) {
         include 'vues/v_listeFraisHorsForfaitC.php';
         include 'vues/v_listeNbJustificatifsC.php';
         break;
-    
-    case 'refuserFrais':
-    //récupération des informations sur les 
-    $idFrais = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_STRING);
-    $visiteurASelectionner = filter_input(INPUT_GET, 'lstVisiteurs', FILTER_SANITIZE_STRING);
-    $moisASelectionner = filter_input(INPUT_GET, 'lstMoisC', FILTER_SANITIZE_STRING);
-    $pdo->refuserFraisHorsForfait($idFrais);
-    header("Location: index.php?uc=validerFrais&action=modifierFraisHorsForfait& lstVisiteurs=".$visiteurASelectionner.'&lstMoisC='.$moisASelectionner);
-    break;
+ 
 
+    /**
+     * Permet de refuser un frais. 
+     * Ajoute un statut (modification de la DB) au frais refusé pour ne pas toucher au libelle
+     * Garde en mémoire les infos entrées précedemment
+     */
+    case 'refuserFrais':
+        //récupération des informations sur les 
+        $idFrais = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_STRING);
+        $visiteurASelectionner = filter_input(INPUT_GET, 'lstVisiteurs', FILTER_SANITIZE_STRING);
+        $moisASelectionner = filter_input(INPUT_GET, 'lstMoisC', FILTER_SANITIZE_STRING);
+        $pdo->refuserFraisHorsForfait($idFrais);
+        header("Location: index.php?uc=validerFrais&action=modifierFraisHorsForfait& lstVisiteurs=" . $visiteurASelectionner . '&lstMoisC=' . $moisASelectionner);
+        break;
+    /**
+     * Permet de modifier le nb de justificatifs reçus
+     * Garde en mémoire les informations entrées précedemment
+     */
     case 'ajouterJustificatif':
-  //Récupère infos visiteurs sélectionné
+        //Récupère infos visiteurs sélectionné
         $lesVisiteurs = $pdo->getLesVisiteurs();
         $visiteurASelectionner = filter_input(INPUT_POST, 'lstVisiteurs', FILTER_SANITIZE_STRING);
         //Récupère infos mois sélectionné
@@ -154,13 +177,15 @@ switch ($action) {
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $idMois);
         $nbJustificatifs = $pdo->getNbJustificatifs($idVisiteur, $idMois);
         include 'vues/v_listeFraisForfaitC.php';
-        include 'vues/v_listeFraisHorsForfaitC.php';        
-        $nbJustificatifsNew = filter_input(INPUT_POST, 'nbJustificatifs', FILTER_SANITIZE_STRING);
-        $pdo->majNbJustificatifs($idVisiteur, $idMois, $nbJustificatifsNew);
-        $nbJustificatifs = $pdo->getNbJustificatifs($idVisiteur, $idMois);
-        
-        
-        include 'vues/v_listeNbJustificatifsC.php';
-        break;
+        include 'vues/v_listeFraisHorsForfaitC.php';
 
+        //Récupération du nouveau nb de justificatifs (entrés par le comptable)
+        $nbJustificatifs = filter_input(INPUT_POST, 'nbJustificatifs', FILTER_SANITIZE_STRING);
+        //Maj du nb de justificatifs en DB
+        $pdo->majNbJustificatifs($idVisiteur, $idMois, $nbJustificatifs);
+        //récupération du nouveau nb pour affichage
+        $nbJustificatifs = $pdo->getNbJustificatifs($idVisiteur, $idMois);
+        include 'vues/v_listeNbJustificatifsC.php';
+
+        break;
 }
