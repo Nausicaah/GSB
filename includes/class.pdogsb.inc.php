@@ -272,19 +272,14 @@ class PdoGsb
      *
      * @return null
      */
-    public function majNbJustificatifs($idVisiteur, $mois, $nbJustificatifs)
-    {
-        $requetePrepare = PdoGB::$monPdo->prepare(
-            'UPDATE fichefrais '
-            . 'SET nbjustificatifs = :unNbJustificatifs '
-            . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
-            . 'AND fichefrais.mois = :unMois'
+    public function majNbJustificatifs($idVisiteur, $mois, $nbJustificatifs) {
+        $requetePrepare = PdoGsB::$monPdo->prepare(
+                'UPDATE fichefrais '
+                . 'SET nbjustificatifs = :unNbJustificatifs '
+                . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
+                . 'AND fichefrais.mois = :unMois'
         );
-        $requetePrepare->bindParam(
-            ':unNbJustificatifs',
-            $nbJustificatifs,
-            PDO::PARAM_INT
-        );
+        $requetePrepare->bindParam(':unNbJustificatifs', $nbJustificatifs, PDO::PARAM_INT);
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();

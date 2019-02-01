@@ -31,7 +31,6 @@
             </thead>  
             <tbody>
             <?php
-            var_dump($visiteurASelectionner);
             foreach ($lesFraisHorsForfait as $unFraisHorsForfait) {
                 $libelle = htmlspecialchars($unFraisHorsForfait['libelle']);
                 $date = $unFraisHorsForfait['date'];
@@ -50,8 +49,8 @@
             </tbody>  
         </table>
     </div>
-            <input name="lstVisiteurs" value="<?php echo $visiteurASelectionner; ?>" type="hidden">
-            <input name="lstMoisC" value="<?php echo $moisASelectionner; ?>" type="hidden">
+    <input name="lstVisiteurs" value="<?php echo $visiteurASelectionner; ?>" type="hidden">
+    <input name="lstMoisC" value="<?php echo $moisASelectionner; ?>" type="hidden">
 
     </div>
 </div>
