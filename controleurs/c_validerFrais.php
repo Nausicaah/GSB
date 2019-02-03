@@ -8,6 +8,7 @@
  * @category  PPE
  * @package   GSB
  * @author    Réseau CERTA <contact@reseaucerta.org>
+ * @author    Lise COLIN
  * @author    José GIL <jgil@ac-nice.fr>
  * @copyright 2017 Réseau CERTA
  * @license   Réseau CERTA
@@ -46,37 +47,36 @@ switch ($action) {
         $lesMois = $pdo->getLesMoisDisponibles($visiteurASelectionner);
         $moisASelectionner = filter_input(INPUT_POST, 'lstMoisC', FILTER_SANITIZE_STRING);
         include 'vues/v_listeMoisC.php';
-        
+
         //Si le visiteur a 0 fiches
-        if ($moisASelectionner == null){
-            
-            echo "<br>Pas de mois disponibles pour ce visiteur";
-            
+        if ($moisASelectionner == null) {
+
+            echo "<br>Veuillez sélectionner un mois. Si aucun mois n'est affiché, ce visiteur n'a pas encore déclaré de fiche de frais.";
         }
         //Si le visiteur a une ou plusieurs fiches
-        else{
-        //Récupération d'informations à afficher
-        $idVisiteur = $visiteurASelectionner;
-        $idMois = $moisASelectionner;
-        $numAnnee = substr($idMois, 0, 4);
-        $numMois = substr($idMois, 4, 2);
-        $nom = $pdo->getNom($idVisiteur);
-        $prenom = $pdo->getPrenom($idVisiteur);
-        
+        else {
+            //Récupération d'informations à afficher
+            $idVisiteur = $visiteurASelectionner;
+            $idMois = $moisASelectionner;
+            $numAnnee = substr($idMois, 0, 4);
+            $numMois = substr($idMois, 4, 2);
+            $nom = $pdo->getNom($idVisiteur);
+            $prenom = $pdo->getPrenom($idVisiteur);
 
 
-        //Utilisation des fonctions afin de pouvoir afficher les données sélectionnées
-        $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $idMois);
-        $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $idMois);
-        $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $idMois);
-        $nbJustificatifs = $pdo->getNbJustificatifs($idVisiteur, $idMois);
-        include 'vues/v_listeFraisForfaitC.php';
-        include 'vues/v_listeFraisHorsForfaitC.php';
-        include 'vues/v_listeNbJustificatifsC.php';}
 
+            //Utilisation des fonctions afin de pouvoir afficher les données sélectionnées
+            $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $idMois);
+            $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $idMois);
+            $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $idMois);
+            $nbJustificatifs = $pdo->getNbJustificatifs($idVisiteur, $idMois);
+            include 'vues/v_listeFraisForfaitC.php';
+            include 'vues/v_listeFraisHorsForfaitC.php';
+            include 'vues/v_listeNbJustificatifsC.php';
+        }
 
         break;
-    
+
     /**
      * Valide en cas de changement pour les frais forfaitisés
      * Garde en mémoire les infos entrées précedemment
@@ -114,7 +114,7 @@ switch ($action) {
         include 'vues/v_listeFraisHorsForfaitC.php';
         include 'vues/v_listeNbJustificatifsC.php';
         break;
-    
+
     /**
      * case utilisée avec refuser frais
      * Garde en mémoire les infos entrées précedemment
@@ -146,7 +146,7 @@ switch ($action) {
         include 'vues/v_listeFraisHorsForfaitC.php';
         include 'vues/v_listeNbJustificatifsC.php';
         break;
- 
+
 
     /**
      * Permet de refuser un frais. 
@@ -161,6 +161,45 @@ switch ($action) {
         $pdo->refuserFraisHorsForfait($idFrais);
         header("Location: index.php?uc=validerFrais&action=modifierFraisHorsForfait& lstVisiteurs=" . $visiteurASelectionner . '&lstMoisC=' . $moisASelectionner);
         break;
+    
+    /**
+     * Permet de reporter un frais. 
+     * Ajoute un statut (modification de la DB) au frais reporté pour ne pas toucher au libelle
+     * Ajoute le frais au mois suivant (si mois inexistant créé une nouvelle fiche)
+     * Garde en mémoire les infos entrées précedemment
+     */
+    case 'reporterFrais':
+        //récupération des informations sur les 
+        $idFraisHF = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_STRING);
+        $visiteurASelectionner = filter_input(INPUT_GET, 'lstVisiteurs', FILTER_SANITIZE_STRING);
+        $moisASelectionner = filter_input(INPUT_GET, 'lstMoisC', FILTER_SANITIZE_STRING);
+
+        //Affiche le fait que le forfait a été reporté
+        $pdo->reporterFraisHorsForfait($idFraisHF);
+        
+        //Récupère le mois suivant
+        $moisSuivant = getMoisSuivant($moisASelectionner);
+        
+        //Si c'est la première saisie du mois
+        if ($pdo->estPremierFraisMois($visiteurASelectionner, $moisSuivant)) {
+            //Créaion de la fiche de frais:
+            $pdo->creeNouvellesLignesFrais($visiteurASelectionner, $moisSuivant);
+        }
+        
+        
+        //Récupération des différentes données du fraisHF:
+        $libelle = $pdo->getLibelleFraisHF($idFraisHF, $idVisiteur, $leMois);
+        $dateFrais = getNewMois($moisSuivant);
+        $montant = $pdo->getMontantFraisHF($idFraisHF, $idVisiteur, $leMois);
+        //Création du frais HF:
+        $pdo->creeNouveauFraisHorsForfait($idVisiteur, $moisSuivant, $libelle, $dateFrais, $montant);
+        //Suppression de ce frais du mois en cours de saisi:
+        $pdo->supprimerFraisHorsForfait($idFraisHF);
+
+        header("Location: index.php?uc=validerFrais&action=modifierFraisHorsForfait& lstVisiteurs=" . $visiteurASelectionner . '&lstMoisC=' . $moisASelectionner);
+        break;
+
+
     /**
      * Permet de modifier le nb de justificatifs reçus
      * Garde en mémoire les informations entrées précedemment

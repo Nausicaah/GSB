@@ -85,6 +85,7 @@ function getLesIdFraisForfait($pdo)
  *
  * @return String le mois d'après
  */
+
 function getMoisSuivant($mois)
 {
     $numAnnee = substr($mois, 0, 4);
