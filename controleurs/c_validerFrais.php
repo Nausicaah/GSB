@@ -42,11 +42,19 @@ switch ($action) {
         $lesVisiteurs = $pdo->getLesVisiteurs();
         $visiteurASelectionner = filter_input(INPUT_POST, 'lstVisiteurs', FILTER_SANITIZE_STRING);
 
-        //Récupère infos mois sélectionné
+        //Récupère infos mois sélectionné et affiche le choix
         $lesMois = $pdo->getLesMoisDisponibles($visiteurASelectionner);
         $moisASelectionner = filter_input(INPUT_POST, 'lstMoisC', FILTER_SANITIZE_STRING);
         include 'vues/v_listeMoisC.php';
-
+        
+        //Si le visiteur a 0 fiches
+        if ($moisASelectionner == null){
+            
+            echo "<br>Pas de mois disponibles pour ce visiteur";
+            
+        }
+        //Si le visiteur a une ou plusieurs fiches
+        else{
         //Récupération d'informations à afficher
         $idVisiteur = $visiteurASelectionner;
         $idMois = $moisASelectionner;
@@ -54,6 +62,8 @@ switch ($action) {
         $numMois = substr($idMois, 4, 2);
         $nom = $pdo->getNom($idVisiteur);
         $prenom = $pdo->getPrenom($idVisiteur);
+        
+
 
         //Utilisation des fonctions afin de pouvoir afficher les données sélectionnées
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $idMois);
@@ -62,7 +72,8 @@ switch ($action) {
         $nbJustificatifs = $pdo->getNbJustificatifs($idVisiteur, $idMois);
         include 'vues/v_listeFraisForfaitC.php';
         include 'vues/v_listeFraisHorsForfaitC.php';
-        include 'vues/v_listeNbJustificatifsC.php';
+        include 'vues/v_listeNbJustificatifsC.php';}
+
 
         break;
     

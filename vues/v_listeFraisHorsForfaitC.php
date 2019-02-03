@@ -35,12 +35,13 @@
                 $libelle = htmlspecialchars($unFraisHorsForfait['libelle']);
                 $date = $unFraisHorsForfait['date'];
                 $montant = $unFraisHorsForfait['montant'];
-                $id = $unFraisHorsForfait['id']; ?>           
+                $id = $unFraisHorsForfait['id'];
+                $etat = $unFraisHorsForfait['etat']?>           
                 <tr>
                     <td> <?php echo $date ?></td>
-                    <td> <?php echo $libelle ?></td>
+                    <td> <?php echo $etat, ' ', $libelle ?></td>
                     <td><?php echo $montant ?></td>
-                    <td><a type="submit" href="index.php?uc=validerFrais&action=refuserFrais&idFrais=<?php echo $id ?>&lstVisiteurs=<?php echo $visiteurASelectionner ?>&lstMoisC=<?php echo $moisASelectionner ?>" 
+                    <td><a class="btn btn-danger" type="submit" href="index.php?uc=validerFrais&action=refuserFrais&idFrais=<?php echo $id ?>&lstVisiteurs=<?php echo $visiteurASelectionner ?>&lstMoisC=<?php echo $moisASelectionner ?>" 
                            onclick="return confirm('Voulez-vous vraiment supprimer ce frais?');">Supprimer ce frais</a></td>
                 </tr>
                 <?php

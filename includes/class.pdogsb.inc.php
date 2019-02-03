@@ -583,7 +583,7 @@ class PdoGsb
     {
         $requetePrepare = PdoGSB::$monPdo->prepare(
             'UPDATE lignefraishorsforfait'
-            . ' SET lignefraishorsforfait.libelle = CONCAT("REFUSE ", libelle)'
+            . ' SET lignefraishorsforfait.etat = "REFUSE"'
             . 'WHERE lignefraishorsforfait.id = :unIdFrais'
         );
         $requetePrepare->bindParam(':unIdFrais', $idFrais, PDO::PARAM_STR);
