@@ -400,7 +400,7 @@ class PdoGsb
         $requetePrepare = PdoGSB::$monPdo->prepare(
             'INSERT INTO lignefraishorsforfait '
             . 'VALUES (null, :unIdVisiteur,:unMois, :unLibelle, :uneDateFr,'
-            . ':unMontant) '
+            . ':unMontant, null) '
         );
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
@@ -583,29 +583,91 @@ class PdoGsb
     {
         $requetePrepare = PdoGSB::$monPdo->prepare(
             'UPDATE lignefraishorsforfait'
-            . ' SET lignefraishorsforfait.etat = "REFUSE"'
-            . 'WHERE lignefraishorsforfait.id = :unIdFrais'
+                . ' SET lignefraishorsforfait.etat = "REFUSE"'
+                . 'WHERE lignefraishorsforfait.id = :unIdFrais'
         );
         $requetePrepare->bindParam(':unIdFrais', $idFrais, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
-    
-     /**
+
+    /**
      * Supprime le frais hors forfait dont l'id est passé en argument
      *
      * @param String $idFrais ID du frais
      *
      * @return null
      */
-    public function reporterFraisHorsForfait($idFrais)
-    {
+    public function reporterFraisHorsForfait($idFrais) {
         $requetePrepare = PdoGSB::$monPdo->prepare(
-            'UPDATE lignefraishorsforfait'
-            . ' SET lignefraishorsforfait.etat = "REPORTE"'
-            . 'WHERE lignefraishorsforfait.id = :unIdFrais'
+                'UPDATE lignefraishorsforfait'
+                . ' SET lignefraishorsforfait.etat = "REPORTE"'
+                . 'WHERE lignefraishorsforfait.id = :unIdFrais'
         );
         $requetePrepare->bindParam(':unIdFrais', $idFrais, PDO::PARAM_STR);
         $requetePrepare->execute();
+    }
+
+    /**
+     * Récupère le libelle d'un montant HF
+     * 
+     * @param String $idFrais
+     * 
+     * @return $libelle
+     */
+    public function getLibelleHorsForfait($idFrais) {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+                'SELECT lignefraishorsforfait.libelle '
+                . 'FROM lignefraishorsforfait '
+                . 'WHERE lignefraishorsforfait.id = :unIdFrais'
+        );
+        $requetePrepare->bindParam(':unIdFrais', $idFrais, PDO::PARAM_STR);
+
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch();
+        $libelle = $laLigne['libelle'];
+        return $libelle;
+    }
+
+    /**
+     * Récupère le libelle d'un montant HF
+     * 
+     * @param String $idFrais
+     * 
+     * @return $libelle
+     */
+    public function getMontantHorsForfait($idFrais) {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+                'SELECT lignefraishorsforfait.montant '
+                . 'FROM lignefraishorsforfait '
+                . 'WHERE lignefraishorsforfait.id = :unIdFrais'
+        );
+        $requetePrepare->bindParam(':unIdFrais', $idFrais, PDO::PARAM_STR);
+
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch();
+        $montant = $laLigne['montant'];
+        return $montant;
+    }
+
+    /**
+     * Récupère le libelle d'un montant HF
+     * 
+     * @param String $idFrais
+     * 
+     * @return $libelle
+     */
+    public function getDateHorsForfait($idFrais) {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+                'SELECT lignefraishorsforfait.date '
+                . 'FROM lignefraishorsforfait '
+                . 'WHERE lignefraishorsforfait.id = :unIdFrais'
+        );
+        $requetePrepare->bindParam(':unIdFrais', $idFrais, PDO::PARAM_STR);
+
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch();
+        $dateFrais = $laLigne['date'];
+        return $dateFrais;
     }
 
 }

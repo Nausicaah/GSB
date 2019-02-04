@@ -169,13 +169,13 @@ switch ($action) {
      * Garde en mémoire les infos entrées précedemment
      */
     case 'reporterFrais':
-        //récupération des informations sur les 
-        $idFraisHF = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_STRING);
+        //Récupération des informations sur le frais hors forfait
+        $idFrais = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_STRING);
         $visiteurASelectionner = filter_input(INPUT_GET, 'lstVisiteurs', FILTER_SANITIZE_STRING);
         $moisASelectionner = filter_input(INPUT_GET, 'lstMoisC', FILTER_SANITIZE_STRING);
-
-        //Affiche le fait que le forfait a été reporté
-        $pdo->reporterFraisHorsForfait($idFraisHF);
+        $libelle = $pdo->getLibelleHorsForfait($idFrais);
+        $montant = $pdo->getMontantHorsForfait($idFrais);
+        $dateFrais = $pdo->getDateHorsForfait($idFrais);
         
         //Récupère le mois suivant
         $moisSuivant = getMoisSuivant($moisASelectionner);
@@ -185,16 +185,11 @@ switch ($action) {
             //Créaion de la fiche de frais:
             $pdo->creeNouvellesLignesFrais($visiteurASelectionner, $moisSuivant);
         }
-        
-        
-        //Récupération des différentes données du fraisHF:
-        $libelle = $pdo->getLibelleFraisHF($idFraisHF, $idVisiteur, $leMois);
-        $dateFrais = getNewMois($moisSuivant);
-        $montant = $pdo->getMontantFraisHF($idFraisHF, $idVisiteur, $leMois);
+
         //Création du frais HF:
-        $pdo->creeNouveauFraisHorsForfait($idVisiteur, $moisSuivant, $libelle, $dateFrais, $montant);
+        $pdo->creeNouveauFraisHorsForfait($visiteurASelectionner, $moisSuivant, $libelle, $dateFrais, $montant);
         //Suppression de ce frais du mois en cours de saisi:
-        $pdo->supprimerFraisHorsForfait($idFraisHF);
+        //$pdo->supprimerFraisHorsForfait($idFrais);
 
         header("Location: index.php?uc=validerFrais&action=modifierFraisHorsForfait& lstVisiteurs=" . $visiteurASelectionner . '&lstMoisC=' . $moisASelectionner);
         break;
