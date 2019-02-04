@@ -262,10 +262,10 @@ function nbErreurs()
 
 function getMoisSuivant($mois)
 {
-    $numAnnee = substr($mois, 0, 4);
-    $numMois = substr($mois, 4, 2);
-    if ($numMois == '12') {
-        $numMois = '01';
+    (int)$numAnnee = substr($mois, 0, 4);
+    (int)$numMois = substr($mois, 4, 2);
+    if ($numMois == 12) {
+        $numMois = 01;
         $numAnnee++;
     } else {
         $numMois++;

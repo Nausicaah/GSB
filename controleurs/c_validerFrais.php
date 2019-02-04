@@ -171,7 +171,9 @@ switch ($action) {
     case 'reporterFrais':
         //Récupération des informations sur le frais hors forfait
         $idFrais = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_STRING);
+        $lesVisiteurs = $pdo->getLesVisiteurs();
         $visiteurASelectionner = filter_input(INPUT_GET, 'lstVisiteurs', FILTER_SANITIZE_STRING);
+        $lesMois = $pdo->getLesMoisDisponibles($visiteurASelectionner);
         $moisASelectionner = filter_input(INPUT_GET, 'lstMoisC', FILTER_SANITIZE_STRING);
         $libelle = $pdo->getLibelleHorsForfait($idFrais);
         $montant = $pdo->getMontantHorsForfait($idFrais);
@@ -182,16 +184,38 @@ switch ($action) {
         
         //Si c'est la première saisie du mois
         if ($pdo->estPremierFraisMois($visiteurASelectionner, $moisSuivant)) {
-            //Créaion de la fiche de frais:
+            //Créaion de la fiche de frais
             $pdo->creeNouvellesLignesFrais($visiteurASelectionner, $moisSuivant);
         }
 
-        //Création du frais HF:
+        //Création du frais HF
         $pdo->creeNouveauFraisHorsForfait($visiteurASelectionner, $moisSuivant, $libelle, $dateFrais, $montant);
         //Suppression de ce frais du mois en cours de saisi:
         //$pdo->supprimerFraisHorsForfait($idFrais);
+        
+        
+        
+             //Récupération d'informations à afficher
+        $idVisiteur = $visiteurASelectionner;
+        $idMois = $moisASelectionner;
+        $numAnnee = substr($idMois, 0, 4);
+        $numMois = substr($idMois, 4, 2);
+        $nom = $pdo->getNom($idVisiteur);
+        $prenom = $pdo->getPrenom($idVisiteur);
 
-        header("Location: index.php?uc=validerFrais&action=modifierFraisHorsForfait& lstVisiteurs=" . $visiteurASelectionner . '&lstMoisC=' . $moisASelectionner);
+        //Utilisation des fonctions afin de pouvoir afficher les données sélectionnées
+        $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $idMois);
+        $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $idMois);
+        $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $idMois);
+        $nbJustificatifs = $pdo->getNbJustificatifs($idVisiteur, $idMois);
+        
+        
+        
+        include 'vues/v_listeMoisC.php';
+        include 'vues/v_listeFraisForfaitC.php';
+        include 'vues/v_listeFraisHorsForfaitC.php';
+        include 'vues/v_listeNbJustificatifsC.php';
+        
         break;
 
 
