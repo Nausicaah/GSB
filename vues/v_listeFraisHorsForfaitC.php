@@ -42,7 +42,7 @@
                     <td> <?php echo $etat, ' ', $libelle ?></td>
                     <td><?php echo $montant ?></td>
                     <td><a class="btn btn-danger" type="submit" href="index.php?uc=validerFrais&action=refuserFrais&idFrais=<?php echo $id ?>&lstVisiteurs=<?php echo $visiteurASelectionner ?>&lstMoisC=<?php echo $moisASelectionner ?>" 
-                           onclick="return confirm('Voulez-vous vraiment supprimer ce frais?');">Supprimer ce frais</a>
+                           onclick="return confirm('Voulez-vous vraiment refuser ce frais?');">Refuser ce frais</a>
                     <a class="btn btn-warning" type="submit" href="index.php?uc=validerFrais&action=reporterFrais&idFrais=<?php echo $id ?>&lstVisiteurs=<?php echo $visiteurASelectionner ?>&lstMoisC=<?php echo $moisASelectionner ?>" 
                            onclick="return confirm('Voulez-vous vraiment reporter ce frais?');">Reporter ce frais</a>
                     

@@ -161,7 +161,7 @@ switch ($action) {
         $pdo->refuserFraisHorsForfait($idFrais);
         header("Location: index.php?uc=validerFrais&action=modifierFraisHorsForfait& lstVisiteurs=" . $visiteurASelectionner . '&lstMoisC=' . $moisASelectionner);
         break;
-    
+
     /**
      * Permet de reporter un frais. 
      * Ajoute un statut (modification de la DB) au frais reporté pour ne pas toucher au libelle
@@ -178,10 +178,10 @@ switch ($action) {
         $libelle = $pdo->getLibelleHorsForfait($idFrais);
         $montant = $pdo->getMontantHorsForfait($idFrais);
         $dateFrais = $pdo->getDateHorsForfait($idFrais);
-        
+
         //Récupère le mois suivant
         $moisSuivant = getMoisSuivant($moisASelectionner);
-        
+
         //Si c'est la première saisie du mois
         if ($pdo->estPremierFraisMois($visiteurASelectionner, $moisSuivant)) {
             //Créaion de la fiche de frais
@@ -191,11 +191,9 @@ switch ($action) {
         //Création du frais HF
         $pdo->creeNouveauFraisHorsForfait($visiteurASelectionner, $moisSuivant, $libelle, $dateFrais, $montant);
         //Suppression de ce frais du mois en cours de saisi:
-        //$pdo->supprimerFraisHorsForfait($idFrais);
+        $pdo->supprimerFraisHorsForfait($idFrais);
         
-        
-        
-             //Récupération d'informations à afficher
+        //Récupération d'informations à afficher
         $idVisiteur = $visiteurASelectionner;
         $idMois = $moisASelectionner;
         $numAnnee = substr($idMois, 0, 4);
@@ -208,14 +206,14 @@ switch ($action) {
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $idMois);
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $idMois);
         $nbJustificatifs = $pdo->getNbJustificatifs($idVisiteur, $idMois);
-        
-        
-        
+
+
+
         include 'vues/v_listeMoisC.php';
         include 'vues/v_listeFraisForfaitC.php';
         include 'vues/v_listeFraisHorsForfaitC.php';
         include 'vues/v_listeNbJustificatifsC.php';
-        
+
         break;
 
 
@@ -255,6 +253,14 @@ switch ($action) {
         //récupération du nouveau nb pour affichage
         $nbJustificatifs = $pdo->getNbJustificatifs($idVisiteur, $idMois);
         include 'vues/v_listeNbJustificatifsC.php';
+
+        break;
+
+
+    /**
+     * Permet de valider la fiche de frais
+     */
+    case 'validerfiche':
 
         break;
 }
