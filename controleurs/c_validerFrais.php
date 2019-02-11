@@ -73,6 +73,7 @@ switch ($action) {
             include 'vues/v_listeFraisForfaitC.php';
             include 'vues/v_listeFraisHorsForfaitC.php';
             include 'vues/v_listeNbJustificatifsC.php';
+            include 'vues/v_validationC.php';
         }
 
         break;
@@ -113,6 +114,7 @@ switch ($action) {
         include 'vues/v_listeFraisForfaitC.php';
         include 'vues/v_listeFraisHorsForfaitC.php';
         include 'vues/v_listeNbJustificatifsC.php';
+        include 'vues/v_validationC.php';
         break;
 
     /**
@@ -145,6 +147,7 @@ switch ($action) {
         include 'vues/v_listeFraisForfaitC.php';
         include 'vues/v_listeFraisHorsForfaitC.php';
         include 'vues/v_listeNbJustificatifsC.php';
+        include 'vues/v_validationC.php';
         break;
 
 
@@ -207,12 +210,11 @@ switch ($action) {
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $idMois);
         $nbJustificatifs = $pdo->getNbJustificatifs($idVisiteur, $idMois);
 
-
-
         include 'vues/v_listeMoisC.php';
         include 'vues/v_listeFraisForfaitC.php';
         include 'vues/v_listeFraisHorsForfaitC.php';
         include 'vues/v_listeNbJustificatifsC.php';
+        include 'vues/v_validationC.php';
 
         break;
 
@@ -253,6 +255,7 @@ switch ($action) {
         //récupération du nouveau nb pour affichage
         $nbJustificatifs = $pdo->getNbJustificatifs($idVisiteur, $idMois);
         include 'vues/v_listeNbJustificatifsC.php';
+        include 'vues/v_validationC.php';
 
         break;
 
@@ -297,6 +300,7 @@ switch ($action) {
         include 'vues/v_listeFraisForfaitC.php';
         include 'vues/v_listeFraisHorsForfaitC.php';
         include 'vues/v_listeNbJustificatifsC.php';
+        include 'vues/v_validationC.php';
 
         break;
 }

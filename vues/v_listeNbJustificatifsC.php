@@ -14,6 +14,9 @@
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
 ?>
+<?php
+if ($uc == 'validerFrais') {
+    ?>
 <div class="row">    
     <h3>Nombres de justificatifs</h3>
     <div class="col-md-4">
@@ -29,42 +32,15 @@
         </form>
     </div>
 </div>
-    <?php
-    if ($uc == 'validerFrais') {
-        ?>
-        <div class="row">    
-            <h3>Valider fiche</h3>
-            <div class="col-md-4">
-                <form method="post" 
-                      action="index.php?uc=validerFrais&action=validerFiche" 
-                      role="form">
-                    <fieldset>
-                        <button class="btn btn-success" type="submit">Valider fiche de frais</button>
-                        <input name="lstVisiteurs" value="<?php echo $visiteurASelectionner; ?>" type="hidden">
-                        <input name="lstMoisC" value="<?php echo $moisASelectionner; ?>" type="hidden">
-                    </fieldset>
-                </form>
-            </div>
-        </div>
-        <br>
-        <br>
-    <?php } else {
-        ?>
- <div class="row">    
-            <h3>Valider fiche</h3>
-            <div class="col-md-4">
-                <form method="post" 
-                      action="index.php?uc=suivreFrais&action=payerFiche" 
-                      role="form">
-                    <fieldset>
-                        <button class="btn btn-success" type="submit">Mettre en paiement</button>
-                        <input name="lstVisiteurs" value="<?php echo $visiteurASelectionner; ?>" type="hidden">
-                        <input name="lstMoisC" value="<?php echo $moisASelectionner; ?>" type="hidden">
-                    </fieldset>
-                </form>
-            </div>
-        </div>
-        <br>
-        <br>
-    <?php
-    }?>
+<?php } else {
+    ?>
+    <div class="row">    
+    <h3>Nombres de justificatifs validés</h3>
+    <div class="col-md-4">
+
+        <input disabled id="nbJustificatifs" value="<?php echo $nbJustificatifs ?>" name="nbJustificatifs" class="form-control">  
+
+    </div>
+</div>
+<?php } ?>
+
