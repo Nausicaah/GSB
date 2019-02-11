@@ -29,19 +29,42 @@
         </form>
     </div>
 </div>
-<div class="row">    
-    <h3>Valider fiche</h3>
-    <div class="col-md-4">
-        <form method="post" 
-              action="index.php?uc=validerFrais&action=validerFiche" 
-              role="form">
-            <fieldset>
-                <button class="btn btn-success" type="submit">Valider fiche de frais</button>
-            <input name="lstVisiteurs" value="<?php echo $visiteurASelectionner; ?>" type="hidden">
-            <input name="lstMoisC" value="<?php echo $moisASelectionner; ?>" type="hidden">
-            </fieldset>
-        </form>
-    </div>
-</div>
-<br>
-<br>
+    <?php
+    if ($uc == 'validerFrais') {
+        ?>
+        <div class="row">    
+            <h3>Valider fiche</h3>
+            <div class="col-md-4">
+                <form method="post" 
+                      action="index.php?uc=validerFrais&action=validerFiche" 
+                      role="form">
+                    <fieldset>
+                        <button class="btn btn-success" type="submit">Valider fiche de frais</button>
+                        <input name="lstVisiteurs" value="<?php echo $visiteurASelectionner; ?>" type="hidden">
+                        <input name="lstMoisC" value="<?php echo $moisASelectionner; ?>" type="hidden">
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <br>
+        <br>
+    <?php } else {
+        ?>
+ <div class="row">    
+            <h3>Valider fiche</h3>
+            <div class="col-md-4">
+                <form method="post" 
+                      action="index.php?uc=suivreFrais&action=payerFiche" 
+                      role="form">
+                    <fieldset>
+                        <button class="btn btn-success" type="submit">Mettre en paiement</button>
+                        <input name="lstVisiteurs" value="<?php echo $visiteurASelectionner; ?>" type="hidden">
+                        <input name="lstMoisC" value="<?php echo $moisASelectionner; ?>" type="hidden">
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <br>
+        <br>
+    <?php
+    }?>
