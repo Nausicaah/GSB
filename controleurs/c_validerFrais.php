@@ -282,20 +282,23 @@ switch ($action) {
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $idMois);
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $idMois);
         $nbJustificatifs = $pdo->getNbJustificatifs($idVisiteur, $idMois);
-        include 'vues/v_listeFraisForfaitC.php';
-        include 'vues/v_listeFraisHorsForfaitC.php';
-        include 'vues/v_listeNbJustificatifsC.php';
         
         $totalFF = $pdo->getTotalFraisForfait($idVisiteur, $idMois);
         $totalFHF = $pdo->getTotalFraisHorsForfait($idVisiteur, $idMois);
+        var_dump($totalFHF);
+        var_dump($totalFF);
         
         $totalFiche = $totalFF + $totalFHF;
 
-        $pdo->majMontantFicheValide($idVisiteur, $leMois, $sommeValidee);
+        $pdo->majMontantFicheValide($idVisiteur, $idMois, $totalFiche);
 
         
-        $etat = 'VA';
-        $pdo->majEtatFicheFrais($idVisiteur, $leMois, $etat);
+        $etatFiche = 'VA';
+        $pdo->majEtatFicheFrais($idVisiteur, $idMois, $etatFiche);
+        
+        include 'vues/v_listeFraisForfaitC.php';
+        include 'vues/v_listeFraisHorsForfaitC.php';
+        include 'vues/v_listeNbJustificatifsC.php';
 
         break;
 }

@@ -669,5 +669,80 @@ class PdoGsb
         $dateFrais = $laLigne['date'];
         return $dateFrais;
     }
+    
+    
+    
+    
+    /**
+     * Fonction qui retourne la total des frais hors forfait
+     * 
+     * @String $idVisiteur  id du visteur concerné
+     * @String $mois        mois concerné
+     * 
+     * @return le total des couts hors forfaits
+     */
+    public function getTotalFraisHorsForfait($idVisiteur, $idMois) {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+                'SELECT SUM(montant) '
+                . 'AS totalFHF '
+                . 'FROM lignefraishorsforfait '
+                . 'WHERE lignefraishorsforfait.idvisiteur = :unIdVisiteur '
+                . 'AND lignefraishorsforfait.mois = :unMois '
+                . 'AND lignefraishorsforfait.etat = ""'
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMois', $idMois, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch();
+        $total = $laLigne['totalFHF'];
+        return $total;
+    }
 
+    /**
+     * Fonction qui retourne la total des frais forfait
+     * 
+     * @String $idVisiteur  id du visteur concerné
+     * @String $mois        mois concerné
+     * 
+     * @return le total des couts hors forfaits
+     */
+    public function getTotalFraisForfait($idVisiteur, $idMois) {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+                'SELECT SUM(quantite*montant) '
+                . 'AS totalForfait '
+                . 'FROM lignefraisforfait '
+                . 'JOIN fraisforfait ON idfraisforfait=fraisforfait.id '
+                . 'WHERE lignefraisforfait.idvisiteur = :unIdVisiteur '
+                . 'AND lignefraisforfait.mois = :unMois'
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMois', $idMois, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch();
+        $total = $laLigne['totalForfait'];
+        return $total;
+    }
+
+    /**
+     * Met à jour le montant de la fiche de frais
+     * pour le mois et le visiteur concerné
+     *
+     * @param String  $idVisiteur      ID du visiteur
+     * @param String  $idMois          Mois sous la forme aaaamm
+     * @param Integer $totalFiche      Total validé
+     *
+     * @return null
+     */
+    public function majMontantFicheValide($idVisiteur, $idMois, $totalFiche) {
+        $requetePrepare = PdoGsB::$monPdo->prepare(
+                'UPDATE fichefrais '
+                . 'SET fichefrais.montantvalide = :unTotal '
+                . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
+                . 'AND fichefrais.mois = :unMois'
+        );
+        $requetePrepare->bindParam(':unTotal', $totalFiche, PDO::PARAM_INT);
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMois', $idMois, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
 }

@@ -36,8 +36,7 @@
               action="index.php?uc=validerFrais&action=validerFiche" 
               role="form">
             <fieldset>
-                <a class="btn btn-success" type="submit" href="index.php?uc=validerFrais&action=validerFiche" 
-                onclick="return confirm('Voulez-vous vraiment valider la fiche de frais ?');">Valider fiche de frais</a>
+                <button class="btn btn-success" type="submit">Valider fiche de frais</button>
             <input name="lstVisiteurs" value="<?php echo $visiteurASelectionner; ?>" type="hidden">
             <input name="lstMoisC" value="<?php echo $moisASelectionner; ?>" type="hidden">
             </fieldset>
