@@ -285,8 +285,6 @@ switch ($action) {
         
         $totalFF = $pdo->getTotalFraisForfait($idVisiteur, $idMois);
         $totalFHF = $pdo->getTotalFraisHorsForfait($idVisiteur, $idMois);
-        var_dump($totalFHF);
-        var_dump($totalFF);
         
         $totalFiche = $totalFF + $totalFHF;
 

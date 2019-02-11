@@ -63,7 +63,7 @@ function deconnecter()
 function dateFrancaisVersAnglais($maDate)
 {
     @list($jour, $mois, $annee) = explode('/', $maDate);
-    return date('Y-m-d', mktime(0, 0, 0, $mois, $jour, $annee));
+    return date('Y-m-d', mktime(0, 0, 0, intval($mois), intval($jour), intval($annee)));
 }
 
 /**

@@ -94,14 +94,14 @@
                                             Accueil
                                         </a>
                                     </li>
-                                    <li <?php if ($uc == 'gererFrais') { ?>class="active"<?php } ?>>
+                                    <li <?php if ($uc == 'validerFrais') { ?>class="active"<?php } ?>>
                                         <a href="index.php?uc=validerFrais&action=selectionnerMois">
                                             <span class="glyphicon glyphicon-pencil"></span>
                                             Validation fiche de frais
                                         </a>
                                     </li>
-                                    <li <?php if ($uc == 'etatFrais') { ?>class="active"<?php } ?>>
-                                        <a href="index.php?uc=etatFrais&action=selectionnerMois">
+                                    <li <?php if ($uc == 'suivreFrais') { ?>class="active"<?php } ?>>
+                                        <a href="index.php?uc=suivreFrais&action=selectionnerMois">
                                             <span class="glyphicon glyphicon-list-alt"></span>
                                             Suivi fiche de frais
                                         </a>
