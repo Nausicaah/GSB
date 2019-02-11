@@ -31,10 +31,10 @@ switch ($action) {
         $visiteurASelectionner = filter_input(INPUT_POST, 'lstVisiteurs', FILTER_SANITIZE_STRING);
         //Affiche la liste des mois
         $lesMois = $pdo->getLesFichesDisponibles($visiteurASelectionner);
-        include 'vues/v_liste.php';
+        include 'vues/v_listeMoisC.php';
         break;
-    
-    
+
+
     case 'afficherFrais':
         //Récupère infos visiteurs sélectionné
         $lesVisiteurs = $pdo->getLesVisiteurs();
@@ -60,13 +60,13 @@ switch ($action) {
             $nom = $pdo->getNom($idVisiteur);
             $prenom = $pdo->getPrenom($idVisiteur);
 
-
-
             //Utilisation des fonctions afin de pouvoir afficher les données sélectionnées
             $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $idMois);
             $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $idMois);
             $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $idMois);
             $nbJustificatifs = $pdo->getNbJustificatifs($idVisiteur, $idMois);
+            $libelle = $pdo->getEtatFicheFrais($idVisiteur, $idMois);
+            $etatFiche = $pdo->getEtatFicheFraisA($idVisiteur, $idMois);
             include 'vues/v_listeFraisForfaitC.php';
             include 'vues/v_listeFraisHorsForfaitC.php';
             include 'vues/v_listeNbJustificatifsC.php';
@@ -74,7 +74,7 @@ switch ($action) {
         }
 
         break;
-        
+
     case 'payerFiche':
 
 
@@ -94,8 +94,6 @@ switch ($action) {
         $nom = $pdo->getNom($idVisiteur);
         $prenom = $pdo->getPrenom($idVisiteur);
 
-
-
         //Utilisation des fonctions afin de pouvoir afficher les données sélectionnées
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $idMois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $idMois);
@@ -104,13 +102,13 @@ switch ($action) {
         include 'vues/v_listeFraisForfaitC.php';
         include 'vues/v_listeFraisHorsForfaitC.php';
         include 'vues/v_listeNbJustificatifsC.php';
-        
+
         $etatFiche = 'RB';
         $pdo->majEtatFicheFrais($idVisiteur, $idMois, $etatFiche);
-        
-        
-        include 'vues/v_validationC.php';
 
+        $libelle = $pdo->getEtatFicheFrais($idVisiteur, $idMois);
+
+        include 'vues/v_validationC.php';
 
         break;
 }

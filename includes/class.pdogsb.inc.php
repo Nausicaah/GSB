@@ -760,7 +760,7 @@ class PdoGsb
         $requetePrepare = PdoGSB::$monPdo->prepare(
                 'SELECT fichefrais.mois AS mois FROM fichefrais '
                 . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
-                . 'AND fichefrais.idetat = "VA"'
+                . 'AND fichefrais.idetat = "VA" OR fichefrais.idetat = "RB"'
         );
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->execute();
@@ -776,6 +776,58 @@ class PdoGsb
             );
         }
         return $lesMois;
+    }
+    
+    
+     /**
+     * Fonction qui retourne le libelle de la fiche de frais
+     * 
+     * @String $idVisiteur  id du visteur concerné
+     * @String $mois        mois concerné
+     * 
+     * @return le libelle de la fiche de frais (de la table etat
+     */
+    public function getEtatFicheFrais($idVisiteur, $idMois) {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+                'SELECT etat.libelle '
+                . 'AS libelle '
+                . 'FROM etat '
+                . 'JOIN fichefrais ON etat.id=fichefrais.idetat '
+                . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
+                . 'AND fichefrais.mois = :unMois'
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMois', $idMois, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch();
+        $libelle = $laLigne['libelle'];
+        return $libelle;
+    }
+    
+    
+         /**
+     * Fonction qui retourne le libelle de la fiche de frais
+     * 
+     * @String $idVisiteur  id du visteur concerné
+     * @String $mois        mois concerné
+     * 
+     * @return le libelle de la fiche de frais (de la table etat
+     */
+    public function getEtatFicheFraisA($idVisiteur, $idMois) {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+                'SELECT etat.id '
+                . 'AS id '
+                . 'FROM etat '
+                . 'JOIN fichefrais ON etat.id=fichefrais.idetat '
+                . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
+                . 'AND fichefrais.mois = :unMois'
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMois', $idMois, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch();
+        $id = $laLigne['id'];
+        return $id;
     }
 
 }
