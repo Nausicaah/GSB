@@ -98,7 +98,7 @@ class PdoGsb
             'SELECT visiteur.id AS id, visiteur.nom AS nom, '
             . 'visiteur.prenom AS prenom, visiteur.grade AS grade '
             . 'FROM visiteur '
-            . 'WHERE visiteur.login = :unLogin AND visiteur.mdp = :unMdp'
+            . 'WHERE visiteur.login = :unLogin AND visiteur.hash = :unMdp'
         );
         $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
@@ -689,7 +689,7 @@ class PdoGsb
                 . 'FROM lignefraishorsforfait '
                 . 'WHERE lignefraishorsforfait.idvisiteur = :unIdVisiteur '
                 . 'AND lignefraishorsforfait.mois = :unMois '
-                . 'AND lignefraishorsforfait.etat = ""'
+                . 'AND lignefraishorsforfait.etat != "REFUSE"'
         );
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMois', $idMois, PDO::PARAM_STR);
@@ -805,7 +805,7 @@ class PdoGsb
     }
     
     
-         /**
+    /**
      * Fonction qui retourne le libelle de la fiche de frais
      * 
      * @String $idVisiteur  id du visteur concerné
@@ -830,4 +830,5 @@ class PdoGsb
         return $id;
     }
 
+    
 }

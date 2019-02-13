@@ -34,6 +34,8 @@ case 'valideConnexion':
     //Récupération des infos
     $login = filter_input(INPUT_POST, 'login', FILTER_SANITIZE_STRING);
     $mdp = filter_input(INPUT_POST, 'mdp', FILTER_SANITIZE_STRING);
+    //Hashage des mots de passes avec la méthode "sha256"
+    $mdp = hash('sha256',$mdp);
     $visiteur = $pdo->getInfosVisiteur($login, $mdp);
    
         //Si les informations de login ne fonctionnent pas
