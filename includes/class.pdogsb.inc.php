@@ -901,19 +901,24 @@ class PdoGsb
      * @return Array de visiteurs
      */
         
-        public function getNbKm($idVisiteur, $idMois) {
+        public function getNbKm($idVisiteur, $idMois, $KM) {
         $requetePrepare = PdoGSB::$monPdo->prepare(
-                'SELECT quantite '
-                . 'FROM lignefraisforfait '
-                . 'WHERE vehicule.id = :unVehicule'
+                'SELECT quantite'
+                .'FROM lignefraisforfait'
+                . 'WHERE lignefraisforfait.idvisiteur = :unVisiteur'
+                .' AND lignefraisforfait.mois = :unMois'
+                . 'AND lignefraisforfait.idfraisforfait = :KM'
+                
         );
-        $requetePrepare->bindParam(':unVehicule', $typeVehicule, PDO::PARAM_);
+        $requetePrepare->bindParam(':unVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMois', $idMois, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':KM', $KM, PDO::PARAM_STR);
 
         $requetePrepare->execute();
         $laLigne = $requetePrepare->fetch();
-        $montant = $laLigne['montant'];
-        return $montant;
+        $quantite = $laLigne['quantite'];
+        return $quantite;
     }
-    getNbKm
+
 
 }

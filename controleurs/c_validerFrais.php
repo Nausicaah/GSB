@@ -291,10 +291,13 @@ switch ($action) {
         $totalFHF = $pdo->getTotalFraisHorsForfait($idVisiteur, $idMois);
         $typeVehicule = $pdo->getTypeVehicule($idVisiteur);
         $IndemKM = $pdo->getIndemKM($typeVehicule);
-        $totalKM = $IndemKM * $pdo->getNbKm($idVisiteur, $idMois);
+        $KM = "KM";
+        $totalKM = $pdo->getNbKm($idVisiteur, $idMois, $KM);
+        $totalKM = $totalKM * $IndemKM;
         
         
         $totalFiche = $totalFF + $totalFHF + $totalKM;
+        var_dump($totalKM);
 
         $pdo->majMontantFicheValide($idVisiteur, $idMois, $totalFiche);
 

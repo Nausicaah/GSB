@@ -51,7 +51,6 @@ if ($uc == 'validerFrais') {
                 </fieldset>
                 <input name="lstVisiteurs" value="<?php echo $visiteurASelectionner; ?>" type="hidden">
                 <input name="lstMoisC" value="<?php echo $moisASelectionner; ?>" type="hidden">
-                <input name="typeVehicule" value="<?php echo $typeVehicule; ?>" type="hidden">
             </form>
         </div>
     </div>
