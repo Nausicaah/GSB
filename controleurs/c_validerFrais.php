@@ -111,6 +111,7 @@ switch ($action) {
         $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
         $pdo->majFraisForfait($idVisiteur, $idMois, $lesFrais);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $idMois);
+        
         include 'vues/v_listeFraisForfaitC.php';
         include 'vues/v_listeFraisHorsForfaitC.php';
         include 'vues/v_listeNbJustificatifsC.php';
@@ -288,8 +289,12 @@ switch ($action) {
         
         $totalFF = $pdo->getTotalFraisForfait($idVisiteur, $idMois);
         $totalFHF = $pdo->getTotalFraisHorsForfait($idVisiteur, $idMois);
+        $typeVehicule = $pdo->getTypeVehicule($idVisiteur);
+        $IndemKM = $pdo->getIndemKM($typeVehicule);
+        $totalKM = $IndemKM * $pdo->getNbKm($idVisiteur, $idMois);
         
-        $totalFiche = $totalFF + $totalFHF;
+        
+        $totalFiche = $totalFF + $totalFHF + $totalKM;
 
         $pdo->majMontantFicheValide($idVisiteur, $idMois, $totalFiche);
 

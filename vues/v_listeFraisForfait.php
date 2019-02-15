@@ -23,7 +23,16 @@
         <form method="post" 
               action="index.php?uc=gererFrais&action=validerMajFraisForfait" 
               role="form">
-            <fieldset>       
+            <fieldset>
+                <label for="typeVehicule">Selectionner le type de véhicule : </label>
+                <select id="typeVehicule" name="typeVehicule" class="form-control">
+                            <!-- Pas de visiteur par défaut -->
+                <option selected="">
+                <option value="4CVD">Vehicule 4CV Diesel</option>
+                <option value="5/6CVD">Vehicule 5/6CV Diesel</option>
+                <option value="4CVE">Vehicule 4CV Essence</option>
+                <option value="5/6CVE">Vehicule 5/6CV Essence</option>
+                </select>
                 <?php
  
                 foreach ($lesFraisForfait as $unFrais) {
@@ -41,10 +50,8 @@
                     <?php
                 }
                 ?>
-                <button class="btn btn-success" type="submit">Ajouter</button>
                 
-                
-                
+                <button class="btn btn-success" type="submit">Ajouter</button>    
                 <a class="btn btn-danger" href="index.php?uc=gererFrais&action=supprimerFraisForfait&<?php echo $idVisiteur;?>&mois=<?php echo $numAnnee, $numMois; ?>" onclick="return confirm('Voulez-vous vraiment supprimer ce frais?');" role="button">Effacer</a>
                 
             </fieldset>

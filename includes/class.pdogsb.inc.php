@@ -213,17 +213,16 @@ class PdoGsb
      *
      * @return null
      */
-    public function majFraisForfait($idVisiteur, $mois, $lesFrais)
-    {
+ public function majFraisForfait($idVisiteur, $mois, $lesFrais) {
         $lesCles = array_keys($lesFrais);
         foreach ($lesCles as $unIdFrais) {
             $qte = $lesFrais[$unIdFrais];
             $requetePrepare = PdoGSB::$monPdo->prepare(
-                'UPDATE lignefraisforfait '
-                . 'SET lignefraisforfait.quantite = :uneQte '
-                . 'WHERE lignefraisforfait.idvisiteur = :unIdVisiteur '
-                . 'AND lignefraisforfait.mois = :unMois '
-                . 'AND lignefraisforfait.idfraisforfait = :idFrais'
+                    'UPDATE lignefraisforfait '
+                    . 'SET lignefraisforfait.quantite = :uneQte '
+                    . 'WHERE lignefraisforfait.idvisiteur = :unIdVisiteur '
+                    . 'AND lignefraisforfait.mois = :unMois '
+                    . 'AND lignefraisforfait.idfraisforfait = :idFrais'
             );
             $requetePrepare->bindParam(':uneQte', $qte, PDO::PARAM_INT);
             $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
@@ -829,6 +828,92 @@ class PdoGsb
         $id = $laLigne['id'];
         return $id;
     }
-
     
+    
+    /**
+     * Met à jour le vehicule utilisé
+     * pour le mois et le visiteur concerné
+     *
+     * @param String  $idVisiteur      ID du visiteur
+     * @param String  $typeVehicule    ID du véhicule
+     *
+     * @return null
+     */
+    public function majTypeVehicule($idVisiteur, $typeVehicule) {
+        $requetePrepare = PdoGsB::$monPdo->prepare(
+                'UPDATE visiteur '
+                . 'SET visiteur.idvehicule = :unVehicule '
+                . 'WHERE visiteur.id = :unIdVisiteur '
+        );
+        $requetePrepare->bindParam(':unVehicule', $typeVehicule, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
+    
+    
+    
+                /**
+     * Fonction qui retourne la liste des visiteurs
+     * Appel : $instancePdoGsb = PdoGsb::getPdoGsb();
+     *
+     * @return Array de visiteurs
+     */
+        
+        public function getTypeVehicule($idVisiteur) {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+                'SELECT idvehicule '
+                . 'FROM visiteur '
+                . 'WHERE visiteur.id = :unIdVisiteur'
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch();
+        $typeVehicule = $laLigne['idvehicule'];
+        return $typeVehicule;
+    }
+    
+    
+                    /**
+     * Fonction qui retourne la liste des visiteurs
+     * Appel : $instancePdoGsb = PdoGsb::getPdoGsb();
+     *
+     * @return Array de visiteurs
+     */
+        
+        public function getIndemKM($typeVehicule) {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+                'SELECT montant '
+                . 'FROM vehicule '
+                . 'WHERE vehicule.id = :unVehicule'
+        );
+        $requetePrepare->bindParam(':unVehicule', $typeVehicule, PDO::PARAM_LOB);
+
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch();
+        $montant = $laLigne['montant'];
+        return $montant;
+    }
+                    /**
+     * Fonction qui retourne la liste des visiteurs
+     * Appel : $instancePdoGsb = PdoGsb::getPdoGsb();
+     *
+     * @return Array de visiteurs
+     */
+        
+        public function getNbKm($idVisiteur, $idMois) {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+                'SELECT quantite '
+                . 'FROM lignefraisforfait '
+                . 'WHERE vehicule.id = :unVehicule'
+        );
+        $requetePrepare->bindParam(':unVehicule', $typeVehicule, PDO::PARAM_);
+
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch();
+        $montant = $laLigne['montant'];
+        return $montant;
+    }
+    getNbKm
+
 }

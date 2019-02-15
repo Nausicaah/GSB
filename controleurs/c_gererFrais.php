@@ -19,14 +19,22 @@ $mois = getMois(date('d/m/Y'));
 $numAnnee = substr($mois, 0, 4);
 $numMois = substr($mois, 4, 2);
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
+
 switch ($action) {
 case 'saisirFrais':
     if ($pdo->estPremierFraisMois($idVisiteur, $mois)) {
         $pdo->creeNouvellesLignesFrais($idVisiteur, $mois);
     }
     break;
+    
 case 'validerMajFraisForfait':
+    //récupération des frais
     $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
+    
+    //récupération du type de véhicule
+    $typeVehicule = filter_input(INPUT_POST, 'typeVehicule', FILTER_SANITIZE_STRING);
+    $pdo->majTypeVehicule($idVisiteur, $typeVehicule);
+   
     if (lesQteFraisValides($lesFrais)) {
         $pdo->majFraisForfait($idVisiteur, $mois, $lesFrais);
     } else {
@@ -34,6 +42,7 @@ case 'validerMajFraisForfait':
         include 'vues/v_erreurs.php';
     }
     break;
+    
 case 'validerCreationFrais':
     $dateFrais = filter_input(INPUT_POST, 'dateFrais', FILTER_SANITIZE_STRING);
     $libelle = filter_input(INPUT_POST, 'libelle', FILTER_SANITIZE_STRING);
@@ -51,6 +60,7 @@ case 'validerCreationFrais':
         );
     }
     break;
+    
 case 'supprimerFrais':
     $idFrais = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_STRING);
     $pdo->supprimerFraisHorsForfait($idFrais);
