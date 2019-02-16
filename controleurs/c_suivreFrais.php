@@ -59,6 +59,7 @@ switch ($action) {
             $numMois = substr($idMois, 4, 2);
             $nom = $pdo->getNom($idVisiteur);
             $prenom = $pdo->getPrenom($idVisiteur);
+            $libelleVoiture = $pdo->getLibelleVehicule($idVisiteur);
 
             //Utilisation des fonctions afin de pouvoir afficher les données sélectionnées
             $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $idMois);
@@ -93,6 +94,7 @@ switch ($action) {
         $numMois = substr($idMois, 4, 2);
         $nom = $pdo->getNom($idVisiteur);
         $prenom = $pdo->getPrenom($idVisiteur);
+        $libelleVoiture = $pdo->getLibelleVehicule($idVisiteur);
 
         //Utilisation des fonctions afin de pouvoir afficher les données sélectionnées
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $idMois);
@@ -105,6 +107,7 @@ switch ($action) {
 
         $etatFiche = 'RB';
         $pdo->majEtatFicheFrais($idVisiteur, $idMois, $etatFiche);
+        $etatFiche = $pdo->getEtatFicheFraisA($idVisiteur, $idMois);
 
         $libelle = $pdo->getEtatFicheFrais($idVisiteur, $idMois);
 

@@ -17,11 +17,16 @@
 <?php
 if ($uc == 'validerFrais') {
     ?>
-    <div class="row">    
-        <br>
-        <hr>
-        <h2>Valider la fiche de frais</h2>
-        Fiche de <?php echo $nom, ' ', $prenom ?>, pour le mois de <?php echo $numMois, '/', $numAnnee ?>.
+    <div class="row">
+        <h3>Valider fiche de frais</h3>
+        <div class="col-md-4">
+            <div class="alert alert-info" role="alert">
+                Fiche de <?php echo $nom, ' ', $prenom ?>, pour le mois de <?php echo $numMois, '/', $numAnnee ?>.
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row"> 
         <h3>Eléments forfaitisés</h3>
         <div class="col-md-4">
             <form method="post" 
@@ -58,15 +63,24 @@ if ($uc == 'validerFrais') {
     ?>
     <div class="row">    
         <br>
-        <?php 
-        if ($etatFiche == 'RB'){
+        <?php
+        if ($etatFiche == 'RB') {
             ?>
-        <div class="alert alert-success" role="alert">Cette fiche a déjà été remboursée!
-        </div>
+            <div class="alert alert-success" role="alert">Cette fiche a déjà été remboursée!
+            </div>
         <?php } ?>
         <hr>
         <h2>Suivi paiement fiche de frais</h2>
-        Fiche de <?php echo $nom, ' ', $prenom ?>, pour le mois de <?php echo $numMois, '/', $numAnnee ?>.
+        <div class="col-md-4">
+            <div class="alert alert-info" role="alert">
+                Fiche de <?php echo $nom, ' ', $prenom ?>, pour le mois de <?php echo $numMois, '/', $numAnnee ?>.
+                <br>
+                Type de la voiture : <?php echo $libelleVoiture ?>. 
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row"> 
         <h3>Eléments forfaitisés</h3>
         <div class="col-md-4">
             <fieldset>       

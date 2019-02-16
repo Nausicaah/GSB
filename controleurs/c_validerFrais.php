@@ -240,6 +240,7 @@ switch ($action) {
         $numMois = substr($idMois, 4, 2);
         $nom = $pdo->getNom($idVisiteur);
         $prenom = $pdo->getPrenom($idVisiteur);
+        
 
         //Utilisation des fonctions afin de pouvoir afficher les données sélectionnées
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $idMois);
