@@ -539,7 +539,6 @@ class PdoGsb {
                 . 'WHERE visiteur.id = :unIdVisiteur'
         );
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
-
         $requetePrepare->execute();
         $laLigne = $requetePrepare->fetch();
         $nom = $laLigne['nom'];
@@ -829,7 +828,6 @@ class PdoGsb {
                 . 'WHERE visiteur.id = :unIdVisiteur'
         );
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
-
         $requetePrepare->execute();
         $laLigne = $requetePrepare->fetch();
         $typeVehicule = $laLigne['idvehicule'];
@@ -899,4 +897,55 @@ class PdoGsb {
         return $libelleVehicule;
     }
 
+    
+    public function getAdresse($idVisiteur){
+       
+       $requetePrepare = PdoGSB::$monPdo->prepare(
+                'SELECT adresse '
+                . 'FROM visiteur '
+                . 'WHERE visiteur.id = :unIdVisiteur'
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch();
+        $adresse = $laLigne['adresse'];
+        return $adresse;
+       
+   }
+   
+      public function getCp($idVisiteur){
+       
+       $requetePrepare = PdoGSB::$monPdo->prepare(
+                'SELECT cp '
+                . 'FROM visiteur '
+                . 'WHERE visiteur.id = :unIdVisiteur'
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch();
+        $cp = $laLigne['cp'];
+        return $cp;
+       
+   }
+   
+   
+      public function getVille($idVisiteur){
+       
+       $requetePrepare = PdoGSB::$monPdo->prepare(
+                'SELECT ville '
+                . 'FROM visiteur '
+                . 'WHERE visiteur.id = :unIdVisiteur'
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch();
+        $ville = $laLigne['ville'];
+        return $ville;
+       
+   }
+    
+    
 }

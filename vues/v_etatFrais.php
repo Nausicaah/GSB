@@ -22,7 +22,7 @@
         <strong><u>Etat :</u></strong> <?php echo $libEtat ?>
         depuis le <?php echo $dateModif ?> <br> 
         <strong><u>Montant validé :</u></strong> <?php echo $montantValide ?><br><br>
-        <a class="btn btn-info" href="index.php?uc=etatFrais&action=testpdf&idMois=<?php echo $numAnnee.$numMois ?>">Telecharger au format PDF</a>
+        <a class="btn btn-info" href="index.php?uc=etatFrais&action=genpdf&idMois=<?php echo $numAnnee.$numMois ?>">Telecharger au format PDF</a>
     </div>
 </div>
 <div class="panel panel-info">
