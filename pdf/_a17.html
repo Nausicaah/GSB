@@ -1,84 +1,32 @@
-
-<link rel="stylesheet" type="text/css" href="..\styles\bootstrap\bootstrap.css">
-<meta charset="UTF-8">
-
-<div class ="row"><div class="col-md-1"></div><div class="col-md-4">
-        <img src="../images/logo.jpg" />
-    </div>
-
-</div>
-<br>
-<br>
-
-<div class="row">
-    <div class="col-md-1">
-    <h1>Votre facture</h1></div>
-    <div class="col-md-11">
-    <div class="alert alert-info" role="alert">
-        Visiteur : <br/>
-        Date : <br/>
-        Matricule : <br/>
-    </div></div>
-  
-</div>
-<div class=" row">
+<link rel="stylesheet" type="text/css" href="..\styles\bootstrap\bootstrap.css"><meta charset="UTF-8">
+<div class ="row"><div class="col-md-1"></div><div class="col-md-4"><img src="../images/logo.jpg" /></div></div><br><br><div class="row"><div class="col-md-1"><h1>Votre facture</h1></div><div class="col-md-11"><div class="alert alert-info" role="alert">
+            Visiteur : <br/>
+            Adresse : <br/>
+            Date : 2019/03<br/>
+            Matricule : a17<br/></div></div></div><div class=" row">
     <div class="col-md-1"></div>
     <div class="col-md-10">
-<div class="panel panel-primary">
-    <div class="panel-heading">Fiche de frais du mois 
-        <?php echo $numMois . '-' . $numAnnee ?> : </div>
-    <div class="panel-body">
-        <strong><u>Etat :</u></strong> <?php echo $libEtat ?>
-        depuis le <?php echo $dateModif ?> <br> 
-        <strong><u>Montant validé :</u></strong> <?php echo $montantValide ?>
-    </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">Fiche de frais du mois : 2019/03</div>
+            <div class="panel-body">
+                <strong><u>Etat :</u></strong> Remboursée
+                depuis le 16/02/2019 <br> 
+                <strong><u>Montant validé :</u></strong> 3745.00
+            </div>
+        </div><div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-4"><h3>Date et signature :</h3></div>
 </div>
-<div class="panel panel-info">
-    <div class="panel-heading">Eléments forfaitisés</div>
-    <table class="table table-bordered table-responsive">
-        <tr>
-            <?php
-            foreach ($lesFraisForfait as $unFraisForfait) {
-                $libelle = $unFraisForfait['libelle']; ?>
-                <th> <?php echo htmlspecialchars($libelle) ?></th>
-                <?php
-            }
-            ?>
-        </tr>
-        <tr>
-            <?php
-            foreach ($lesFraisForfait as $unFraisForfait) {
-                $quantite = $unFraisForfait['quantite']; ?>
-                <td class="qteForfait"><?php echo $quantite ?> </td>
-                <?php
-            }
-            ?>
-        </tr>
-    </table>
-</div>
-<div class="panel panel-info">
-    <div class="panel-heading">Descriptif des éléments hors forfait - 
-        <?php echo $nbJustificatifs ?> justificatifs reçus</div>
-    <table class="table table-bordered table-responsive">
-        <tr>
-            <th class="date">Date</th>
-            <th class="libelle">Libellé</th>
-            <th class='montant'>Montant</th>                
-        </tr>
-        <?php
-        foreach ($lesFraisHorsForfait as $unFraisHorsForfait) {
-            $date = $unFraisHorsForfait['date'];
-            $libelle = htmlspecialchars($unFraisHorsForfait['libelle']);
-            $montant = $unFraisHorsForfait['montant']; ?>
-            <tr>
-                <td><?php echo $date ?></td>
-                <td><?php echo $libelle ?></td>
-                <td><?php echo $montant ?></td>
-            </tr>
-            <?php
-        }
-        ?>
-    </table>
-</div>
-    </div>
+<br />
+<hr>
+<div class ="alert alert-warning">
+    <strong>Frais forfaitaires : </strong>Les frais forfaitaires doivent être justifiés par une facture acquittée faisant apparaître le montant de la TVA. Ces documents ne sont pas à joindre à l’état de frais mais doivent être conservés pendant trois années. Ils peuvent être contrôlés par le délégué régional ou le service comptable
+    <br><strong>Montants unitaires : </strong>Tarifs en vigueur au 01/09/2017
+    <br><strong>Indemnité kilométrique : </strong>Prix au kilomètre selon la puissance du véhicule  déclaré auprès des services comptables
+    <ul><li>(Véhicule  4CV Diesel) 	0.52 € / Km</li>
+        <li>(Véhicule 5/6CV Diesel) 	0.58 € / Km</li>
+        <li>(Véhicule  4CV Essence) 	0.62 € / Km</li>
+        <li>(Véhicule 5/6CV Essence) 	0.67 € / Km</li></ul>
+    <br><strong>Frais non forfaitaires : </strong>Tout frais « hors forfait » doit être dûment justifié par l’envoi d’une facture acquittée faisant apparaître le montant de TVA
+
 </div>
