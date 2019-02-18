@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Gestion des frais
+ * Validation des frais (comptable)
  *
  * PHP Version 7
  *

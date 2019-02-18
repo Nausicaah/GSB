@@ -7,7 +7,8 @@
  * @category  PPE
  * @package   GSB
  * @author    Réseau CERTA <contact@reseaucerta.org>
- * @author    Lise COLIN <jgil@ac-nice.fr>
+ * @author    Lise COLIN
+ * @author    José GIL <jgil@ac-nice.fr>
  * @copyright 2017 Réseau CERTA
  * @license   Réseau CERTA
  * @version   GIT: <0>

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Gestion de la déconnexion
+ * Gestion de l'affichage des frais disponibles
  *
  * PHP Version 7
  *

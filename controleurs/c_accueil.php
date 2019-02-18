@@ -1,6 +1,6 @@
 <?php
 /**
- * Gestion de la déconnexion
+ * Gestion de l'accueil
  *
  * PHP Version 7
  *
