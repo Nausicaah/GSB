@@ -7,7 +7,7 @@
  * @category  PPE
  * @package   GSB
  * @author    Réseau CERTA <contact@reseaucerta.org>
- * @author    Johanna DUBIE <jonanadu38@gmail.com>
+ * @author    Lise COLIN
  * @copyright 2017 Réseau CERTA
  * @license   Réseau CERTA
  * @version   GIT: <0>

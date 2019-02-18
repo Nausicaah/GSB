@@ -1,12 +1,13 @@
 <?php
 /**
- * Gestion de l'affichage des frais
+ * Gestion de la déconnexion
  *
  * PHP Version 7
  *
  * @category  PPE
  * @package   GSB
  * @author    Réseau CERTA <contact@reseaucerta.org>
+ * @author    Lise COLIN
  * @author    José GIL <jgil@ac-nice.fr>
  * @copyright 2017 Réseau CERTA
  * @license   Réseau CERTA
@@ -26,6 +27,7 @@ case 'selectionnerMois':
     $moisASelectionner = $lesCles[0];
     include 'vues/v_listeMois.php';
     break;
+
 case 'voirEtatFrais':
     $leMois = filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_STRING);
     $lesMois = $pdo->getLesMoisDisponibles($idVisiteur);
@@ -41,4 +43,24 @@ case 'voirEtatFrais':
     $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
     $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
     include 'vues/v_etatFrais.php';
+    break;
+    
+    case 'testpdf':
+        //booleenne a initier
+        //$generation = true;
+        
+        //récupération de l'id mois
+        $leMois = filter_input(INPUT_GET, 'idMois', FILTER_SANITIZE_STRING);
+        //création du nom du PDF
+        $nompdf = $leMois . '_' . $idVisiteur;
+        
+        //generation SI pas déjà gen
+        //if (!$generation) {
+            //file_put_contents('pdf/' . $nompdf . '.html', "test");
+            exec('C:/wamp64/apps/wkhtmltopdf/bin/wkhtmltopdf.exe C:/wamp64/www/GSB_AppliMVC/pdf/' . $nompdf . '.html C:/wamp64/www/GSB_AppliMVC/pdf/' . $nompdf . '.pdf');
+       // }
+        
+        //Affichage du PDF
+        header('Location: pdf/' . $nompdf . '.pdf');
+        break;
 }
