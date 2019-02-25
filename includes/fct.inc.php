@@ -276,3 +276,10 @@ function getMoisSuivant($mois)
     }
     return $numAnnee . $numMois;
 }
+
+
+function test(){
+    $idMois = filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_STRING);
+    $listeMois = $pdo->getLesMoisDisponibles($idVisiteur);
+    include 'vues/v_listeMois.php';
+}

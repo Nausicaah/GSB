@@ -69,7 +69,7 @@ if ($uc == 'validerFrais') {
                         <label for="lstMoisC">Mois disponibles : </label>
                         <select id="lstMoisC" name="lstMoisC" class="form-control">
                             <?php
-                            foreach ($lesMois as $unMois) {
+                            foreach ($listeMois as $unMois) {
                                 $mois = $unMois['mois'];
                                 $numAnnee = $unMois['numAnnee'];
                                 $numMois = $unMois['numMois'];
@@ -147,7 +147,7 @@ if ($uc == 'validerFrais') {
                         <label for="lstMoisC">Mois disponibles : </label>
                         <select id="lstMoisC" name="lstMoisC" class="form-control">
                             <?php
-                            foreach ($lesMois as $unMois) {
+                            foreach ($listeMois as $unMois) {
                                 $mois = $unMois['mois'];
                                 $numAnnee = $unMois['numAnnee'];
                                 $numMois = $unMois['numMois'];

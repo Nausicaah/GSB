@@ -91,7 +91,7 @@ if ($uc == 'validerFrais') {
                         ?>
                         <tr>
                             <td> <?php echo $date ?></td>
-                            <td> <?php echo $etat, ' ', $libelle ?></td>
+                            <td> <?php echo $etat , ' ', $libelle ?></td>
                             <td><?php echo $montant ?></td>
                         </tr>
                         <?php

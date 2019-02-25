@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Gestion de l'accueil
  *
@@ -14,17 +15,15 @@
  * @version   GIT: <0>
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
-
 //En cas de connexion
-if ($estConnecte) 
-    {
+if ($estConnecte) {
     //Affichage de l'accueil comptable
-    if ($_SESSION['grade'] == 'c'){
+    if ($_SESSION['grade'] == 'c') {
         include 'vues/v_accueilC.php';
     }
     //Affichage de l'accueil visiteur
-    else if ($_SESSION['grade'] != 'c'){
-       include 'vues/v_accueil.php';
+    else if ($_SESSION['grade'] != 'c') {
+        include 'vues/v_accueil.php';
     }
     //Non connecté
 } else {

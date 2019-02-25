@@ -27,7 +27,7 @@
                 <label for="lstMois" accesskey="n">Mois : </label>
                 <select id="lstMois" name="lstMois" class="form-control">
                     <?php
-                    foreach ($lesMois as $unMois) {
+                    foreach ($listeMois as $unMois) {
                         $mois = $unMois['mois'];
                         $numAnnee = $unMois['numAnnee'];
                         $numMois = $unMois['numMois'];

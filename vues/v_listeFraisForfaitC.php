@@ -64,12 +64,6 @@ if ($uc == 'validerFrais') {
     ?>
     <div class="row">    
         <br>
-        <?php
-        if ($etatFiche == 'RB') {
-            ?>
-            <div class="alert alert-success" role="alert">Cette fiche a déjà été remboursée!
-            </div>
-        <?php } ?>
         <hr>
         <h2>Suivi paiement fiche de frais</h2>
         <div class="col-md-4">

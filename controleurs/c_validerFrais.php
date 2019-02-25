@@ -30,7 +30,7 @@ switch ($action) {
         $lesVisiteurs = $pdo->getLesVisiteurs();
         $visiteurASelectionner = filter_input(INPUT_POST, 'lstVisiteurs', FILTER_SANITIZE_STRING);
         //Affiche la liste des mois
-        $lesMois = $pdo->getLesMoisDisponibles($visiteurASelectionner);
+        $listeMois = $pdo->getLesMoisDisponibles($visiteurASelectionner);
         include 'vues/v_listeMoisC.php';
         break;
 
@@ -44,7 +44,7 @@ switch ($action) {
         $visiteurASelectionner = filter_input(INPUT_POST, 'lstVisiteurs', FILTER_SANITIZE_STRING);
 
         //Récupère infos mois sélectionné et affiche le choix
-        $lesMois = $pdo->getLesMoisDisponibles($visiteurASelectionner);
+        $listeMois = $pdo->getLesMoisDisponibles($visiteurASelectionner);
         $moisASelectionner = filter_input(INPUT_POST, 'lstMoisC', FILTER_SANITIZE_STRING);
         include 'vues/v_listeMoisC.php';
 
@@ -89,7 +89,7 @@ switch ($action) {
         $visiteurASelectionner = filter_input(INPUT_POST, 'lstVisiteurs', FILTER_SANITIZE_STRING);
 
         //Récupère infos mois sélectionné
-        $lesMois = $pdo->getLesMoisDisponibles($visiteurASelectionner);
+        $listeMois = $pdo->getLesMoisDisponibles($visiteurASelectionner);
         $moisASelectionner = filter_input(INPUT_POST, 'lstMoisC', FILTER_SANITIZE_STRING);
         include 'vues/v_listeMoisC.php';
 
@@ -128,7 +128,7 @@ switch ($action) {
         $lesVisiteurs = $pdo->getLesVisiteurs();
         $visiteurASelectionner = filter_input(INPUT_GET, 'lstVisiteurs', FILTER_SANITIZE_STRING);
         //Récupère infos mois sélectionné
-        $lesMois = $pdo->getLesMoisDisponibles($visiteurASelectionner);
+        $listeMois = $pdo->getLesMoisDisponibles($visiteurASelectionner);
         $moisASelectionner = filter_input(INPUT_GET, 'lstMoisC', FILTER_SANITIZE_STRING);
         include 'vues/v_listeMoisC.php';
 
@@ -177,7 +177,7 @@ switch ($action) {
         $idFrais = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_STRING);
         $lesVisiteurs = $pdo->getLesVisiteurs();
         $visiteurASelectionner = filter_input(INPUT_GET, 'lstVisiteurs', FILTER_SANITIZE_STRING);
-        $lesMois = $pdo->getLesMoisDisponibles($visiteurASelectionner);
+        $listeMois = $pdo->getLesMoisDisponibles($visiteurASelectionner);
         $moisASelectionner = filter_input(INPUT_GET, 'lstMoisC', FILTER_SANITIZE_STRING);
         $libelle = $pdo->getLibelleHorsForfait($idFrais);
         $montant = $pdo->getMontantHorsForfait($idFrais);
@@ -229,7 +229,7 @@ switch ($action) {
         $lesVisiteurs = $pdo->getLesVisiteurs();
         $visiteurASelectionner = filter_input(INPUT_POST, 'lstVisiteurs', FILTER_SANITIZE_STRING);
         //Récupère infos mois sélectionné
-        $lesMois = $pdo->getLesMoisDisponibles($visiteurASelectionner);
+        $listeMois = $pdo->getLesMoisDisponibles($visiteurASelectionner);
         $moisASelectionner = filter_input(INPUT_POST, 'lstMoisC', FILTER_SANITIZE_STRING);
         include 'vues/v_listeMoisC.php';
 
@@ -270,10 +270,11 @@ switch ($action) {
         $lesVisiteurs = $pdo->getLesVisiteurs();
         $visiteurASelectionner = filter_input(INPUT_POST, 'lstVisiteurs', FILTER_SANITIZE_STRING);
         //Récupère infos mois sélectionné
-        $lesMois = $pdo->getLesMoisDisponibles($visiteurASelectionner);
+        $listeMois = $pdo->getLesMoisDisponibles($visiteurASelectionner);
         $moisASelectionner = filter_input(INPUT_POST, 'lstMoisC', FILTER_SANITIZE_STRING);
         include 'vues/v_listeMoisC.php';
 
+        /**
         //Récupération d'informations à afficher
         $idVisiteur = $visiteurASelectionner;
         $idMois = $moisASelectionner;
@@ -298,7 +299,6 @@ switch ($action) {
         
         
         $totalFiche = $totalFF + $totalFHF + $totalKM;
-        var_dump($totalKM);
 
         $pdo->majMontantFicheValide($idVisiteur, $idMois, $totalFiche);
 
@@ -309,7 +309,9 @@ switch ($action) {
         include 'vues/v_listeFraisForfaitC.php';
         include 'vues/v_listeFraisHorsForfaitC.php';
         include 'vues/v_listeNbJustificatifsC.php';
-        include 'vues/v_validationC.php';
+        include 'vues/v_validationC.php'; 
+         * 
+         */
         
         break;
 }

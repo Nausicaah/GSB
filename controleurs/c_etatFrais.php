@@ -17,28 +17,28 @@
  */
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 $idVisiteur = $_SESSION['idVisiteur'];
-$generation = false;
+
 switch ($action) {
+    /**
+     * Permet de sélectionner les mois parmis les mois disponibles
+     */
     case 'selectionnerMois':
-        $lesMois = $pdo->getLesMoisDisponibles($idVisiteur);
-        // Afin de sélectionner par défaut le dernier mois dans la zone de liste
-        // on demande toutes les clés, et on prend la première,
-        // les mois étant triés décroissants
-        $lesCles = array_keys($lesMois);
-        $moisASelectionner = $lesCles[0];
+        //Récupération des données
+        $listeMois = $pdo->getLesMoisDisponibles($idVisiteur);
+        $lesCles = array_keys($listeMois);
         include 'vues/v_listeMois.php';
         break;
 
     case 'voirEtatFrais':
-        $leMois = filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_STRING);
-        $lesMois = $pdo->getLesMoisDisponibles($idVisiteur);
-        $moisASelectionner = $leMois;
+        $idMois = filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_STRING);
+        $listeMois = $pdo->getLesMoisDisponibles($idVisiteur);
         include 'vues/v_listeMois.php';
-        $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $leMois);
-        $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $leMois);
-        $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $leMois);
-        $numAnnee = substr($leMois, 0, 4);
-        $numMois = substr($leMois, 4, 2);
+
+        $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $idMois);
+        $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $idMois);
+        $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $idMois);
+        $numAnnee = substr($idMois, 0, 4);
+        $numMois = substr($idMois, 4, 2);
         $libEtat = $lesInfosFicheFrais['libEtat'];
         $montantValide = $lesInfosFicheFrais['montantValide'];
         $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
@@ -46,35 +46,47 @@ switch ($action) {
         include 'vues/v_etatFrais.php';
         break;
 
+    /**
+     * Generation du PDF
+     * NOTE : utilisation de wkhtmltopdf avec un chemin! Penser à modifier le chemin en cas de mod de l'emplacement du site
+     * Utilisation de file put content, qui permet de créer une page html automatiquement
+     * Après sa génération, wkhtmltopdf utilisera son script pour transformer l'html en pdf
+     */
     case 'genpdf':
         //récupération de l'id mois
-        $leMois = filter_input(INPUT_GET, 'idMois', FILTER_SANITIZE_STRING);
-        //création du nom du PDF
-        $nompdf = $leMois . '_' . $idVisiteur;
-        //récupération du chemin du pdf
-        $filename = 'pdf/' . $nompdf . '.pdf';
+        $idMois = filter_input(INPUT_GET, 'idMois', FILTER_SANITIZE_STRING);
 
-        //Si le pdf n'est pas généré
-        if (!file_exists($filename)) {
+        //erreur créé en cas de retour
+        if (strlen($idMois) != 6) {
 
-            //récupération de toutes les infos importantes
-            $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $leMois);
-            $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $leMois);
-            $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $leMois);
-            $numAnnee = substr($leMois, 0, 4);
-            $numMois = substr($leMois, 4, 2);
-            $libEtat = $lesInfosFicheFrais['libEtat'];
-            $montantValide = $lesInfosFicheFrais['montantValide'];
-            $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
-            $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
-            $nom = $pdo->getNom($idVisiteur);
-            $prenom = $pdo->getPrenom($idVisiteur);
-            $adresse = $pdo->getAdresse($idVisiteur);
-            $cp = $pdo->getCp($idVisiteur);
-            $ville = $pdo->getVille($idVisiteur);
+            echo "Erreur";
+        } else {
+            //création du nom du PDF
+            $nompdf = $idMois . '_' . $idVisiteur;
+            //récupération du chemin du pdf
+            $filename = 'pdf/' . $nompdf . '.pdf';
 
-            //put charset & bootstrap
-            file_put_contents('pdf/' . $nompdf . '.html', '<link rel="stylesheet" type="text/css" href="..\styles\bootstrap\bootstrap.css">
+            //Si le pdf n'est pas généré
+            if (!file_exists($filename)) {
+
+                //récupération de toutes les infos importantes
+                $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $idMois);
+                $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $idMois);
+                $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $idMois);
+                $numAnnee = substr($idMois, 0, 4);
+                $numMois = substr($idMois, 4, 2);
+                $libEtat = $lesInfosFicheFrais['libEtat'];
+                $montantValide = $lesInfosFicheFrais['montantValide'];
+                $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
+                $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
+                $nom = $pdo->getNom($idVisiteur);
+                $prenom = $pdo->getPrenom($idVisiteur);
+                $adresse = $pdo->getAdresse($idVisiteur);
+                $cp = $pdo->getCp($idVisiteur);
+                $ville = $pdo->getVille($idVisiteur);
+
+                //put charset & bootstrap
+                file_put_contents('pdf/' . $nompdf . '.html', '<link rel="stylesheet" type="text/css" href="..\styles\bootstrap\bootstrap.css">
             <meta charset="UTF-8">
             <div class ="row">
             <div class="col-md-1"></div>
@@ -83,8 +95,8 @@ switch ($action) {
             </div></div>
             <br><br>', FILE_APPEND);
 
-            //put en-tête récap infos visiteurs
-            file_put_contents('pdf/' . $nompdf . '.html', '<div class="row">
+                //put en-tête récap infos visiteurs
+                file_put_contents('pdf/' . $nompdf . '.html', '<div class="row">
             <div class="col-md-1"><h1>Votre facture</h1></div>
             <div class="col-md-11">
             <div class="alert alert-info" role="alert">
@@ -93,44 +105,44 @@ switch ($action) {
             Matricule : ' . $idVisiteur . '<br/>
             </div></div></div>', FILE_APPEND);
 
-            //put en-tête frais
-            file_put_contents('pdf/' . $nompdf . '.html', '<div class=" row">
+                //put en-tête frais
+                file_put_contents('pdf/' . $nompdf . '.html', '<div class=" row">
             <div class="col-md-1"></div>
             <div class="col-md-10">
             <div class="panel panel-primary">
             <div class="panel-heading">Fiche de frais du mois : ' . $numAnnee . '/' . $numMois . '</div>
             <div class="panel-body">
-            <strong><u>Etat</u></strong> : ' . $libEtat . 'depuis le ' . $dateModif . ' <br> 
+            <strong><u>Etat</u></strong> : ' . $libEtat . ' depuis le ' . $dateModif . ' <br> 
             <strong><u>Montant validé</u></strong> : ' . $montantValide . '
             </div></div>', FILE_APPEND);
 
-            //put table html pour le foreach
-            file_put_contents('pdf/' . $nompdf . '.html', '<div class="panel panel-info">
+                //put table html pour le foreach
+                file_put_contents('pdf/' . $nompdf . '.html', '<div class="panel panel-info">
             <div class="panel-heading">Eléments forfaitisés</div>
             <table class="table table-bordered table-responsive">
             <tr>', FILE_APPEND);
 
-            foreach ($lesFraisForfait as $unFraisForfait) {
-                $libelle = $unFraisForfait['libelle'];
-                //put les libelles
-                file_put_contents('pdf/' . $nompdf . '.html', '<th>' . $libelle . '</th>', FILE_APPEND);
-            }
+                foreach ($lesFraisForfait as $unFraisForfait) {
+                    $libelle = $unFraisForfait['libelle'];
+                    //put les libelles
+                    file_put_contents('pdf/' . $nompdf . '.html', '<th>' . $libelle . '</th>', FILE_APPEND);
+                }
 
-            //put balises html fin foreach
-            file_put_contents('pdf/' . $nompdf . '.html', '</tr><tr>', FILE_APPEND);
+                //put balises html fin foreach
+                file_put_contents('pdf/' . $nompdf . '.html', '</tr><tr>', FILE_APPEND);
 
 
-            foreach ($lesFraisForfait as $unFraisForfait) {
-                $quantite = $unFraisForfait['quantite'];
-                //put les quantites
-                file_put_contents('pdf/' . $nompdf . '.html', '<td class="qteForfait">' . $quantite . '</td>', FILE_APPEND);
-            }
+                foreach ($lesFraisForfait as $unFraisForfait) {
+                    $quantite = $unFraisForfait['quantite'];
+                    //put les quantites
+                    file_put_contents('pdf/' . $nompdf . '.html', '<td class="qteForfait">' . $quantite . '</td>', FILE_APPEND);
+                }
 
-            //put balise fin fooreach
-            file_put_contents('pdf/' . $nompdf . '.html', '</tr></table></div>', FILE_APPEND);
+                //put balise fin fooreach
+                file_put_contents('pdf/' . $nompdf . '.html', '</tr></table></div>', FILE_APPEND);
 
-            //put descriptif hors forfait
-            file_put_contents('pdf/' . $nompdf . '.html', '
+                //put descriptif hors forfait
+                file_put_contents('pdf/' . $nompdf . '.html', '
             <div class="panel panel-info">
             <div class="panel-heading">Descriptif des éléments hors forfait - 
                 ' . $nbJustificatifs . 'justificatifs reçus</div>
@@ -141,23 +153,23 @@ switch ($action) {
                     <th class="montant">Montant</th>                
                 </tr>', FILE_APPEND);
 
-            foreach ($lesFraisHorsForfait as $unFraisHorsForfait) {
-                $date = $unFraisHorsForfait['date'];
-                $libelle = htmlspecialchars($unFraisHorsForfait['libelle']);
-                $montant = $unFraisHorsForfait['montant'];
-                //put des HF
-                file_put_contents('pdf/' . $nompdf . '.html', '<tr>
+                foreach ($lesFraisHorsForfait as $unFraisHorsForfait) {
+                    $date = $unFraisHorsForfait['date'];
+                    $libelle = htmlspecialchars($unFraisHorsForfait['libelle']);
+                    $montant = $unFraisHorsForfait['montant'];
+                    //put des HF
+                    file_put_contents('pdf/' . $nompdf . '.html', '<tr>
                     <td>' . $date . '</td>
                     <td>' . $libelle . '</td>
                     <td>' . $montant . '</td>
                 </tr>', FILE_APPEND);
-            }
+                }
 
-            //put fin balises html
-            file_put_contents('pdf/' . $nompdf . '.html', '</table></div></div></div>', FILE_APPEND);
+                //put fin balises html
+                file_put_contents('pdf/' . $nompdf . '.html', '</table></div></div></div>', FILE_APPEND);
 
-            //put signatures et notes
-            file_put_contents('pdf/' . $nompdf . '.html', '<div class="row">
+                //put signatures et notes
+                file_put_contents('pdf/' . $nompdf . '.html', '<div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-4"><h3>Date et signature :</h3></div>
             </div>
@@ -173,14 +185,22 @@ switch ($action) {
                 <li>(Véhicule 5/6CV Essence) 	0.67 € / Km</li>
             </ul>
             <br><strong>Frais non forfaitaires : </strong>Tout frais « hors forfait » doit être dûment justifié par l’envoi d’une facture acquittée faisant apparaître le montant de TVA
-<           /div>', FILE_APPEND);
+</div>', FILE_APPEND);
 
-            //convertissement de html vers pdf
-            exec('C:/wamp64/apps/wkhtmltopdf/bin/wkhtmltopdf.exe C:/wamp64/www/GSB_AppliMVC/pdf/' . $nompdf . '.html C:/wamp64/www/GSB_AppliMVC/pdf/' . $nompdf . '.pdf');
+                /**
+                 * Premier chemin => script wkhtmltopdf
+                 * Deuxième chemin => page html
+                 * Troisième chemin => gen PDF
+                 */
+                exec('C:/wamp64/www/GSB_AppliMVC/pdf/wkhtmltopdf/bin/wkhtmltopdf.exe '
+                        . 'C:/wamp64/www/GSB_AppliMVC/pdf/' . $nompdf .
+                        '.html C:/wamp64/www/GSB_AppliMVC/pdf/' . $nompdf . '.pdf');
+
+                //Fin si pdf non généré
+            }
+
+            //Affichage du pdf (si pdf déjà généré, affiche directement)
+            header('Location: pdf/' . $nompdf . '.pdf');
         }
-        //Fin si pdf non généré
-
-        //Affichage du pdf (si pdf déjà généré, affiche directement)
-        header('Location: pdf/' . $nompdf . '.pdf');
         break;
 }
