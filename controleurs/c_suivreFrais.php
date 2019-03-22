@@ -29,6 +29,7 @@ switch ($action) {
         //Récupère les informations visiteurs
         $lesVisiteurs = $pdo->getLesVisiteurs();
         $visiteurASelectionner = filter_input(INPUT_POST, 'lstVisiteurs', FILTER_SANITIZE_STRING);
+        
         //Affiche la liste des mois
         $listeMois = $pdo->getLesFichesDisponibles($visiteurASelectionner);
         include 'vues/v_listeMoisC.php';
@@ -58,8 +59,9 @@ switch ($action) {
             $idMois = $moisASelectionner;
             $numAnnee = substr($idMois, 0, 4);
             $numMois = substr($idMois, 4, 2);
-            $nom = $pdo->getNom($idVisiteur);
-            $prenom = $pdo->getPrenom($idVisiteur);
+            $infoVisiteur = $pdo->getFicheVisiteur($idVisiteur);
+            $nom = $infoVisiteur['nom'];
+            $prenom = $infoVisiteur['prenom'];
             $libelleVoiture = $pdo->getLibelleVehicule($idVisiteur);
 
             //Utilisation des fonctions afin de pouvoir afficher les données sélectionnées
@@ -67,8 +69,9 @@ switch ($action) {
             $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $idMois);
             $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $idMois);
             $nbJustificatifs = $pdo->getNbJustificatifs($idVisiteur, $idMois);
-            $libelle = $pdo->getEtatFicheFrais($idVisiteur, $idMois);
-            $etatFiche = $pdo->getEtatFicheFraisA($idVisiteur, $idMois);
+            $etatFicheFrais = $pdo->getEtatFicheFrais($idVisiteur, $idMois);
+            $libelle = $etatFicheFrais['libelle'];
+            $etatFiche = $etatFicheFrais['id'];
             include 'vues/v_listeFraisForfaitC.php';
             include 'vues/v_listeFraisHorsForfaitC.php';
             include 'vues/v_listeNbJustificatifsC.php';

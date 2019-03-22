@@ -60,8 +60,9 @@ switch ($action) {
             $idMois = $moisASelectionner;
             $numAnnee = substr($idMois, 0, 4);
             $numMois = substr($idMois, 4, 2);
-            $nom = $pdo->getNom($idVisiteur);
-            $prenom = $pdo->getPrenom($idVisiteur);
+            $infoVisiteur = $pdo->getFicheVisiteur($idVisiteur);
+            $nom = $infoVisiteur['nom'];
+            $prenom = $infoVisiteur['prenom'];
 
 
 
@@ -98,8 +99,9 @@ switch ($action) {
         $idMois = $moisASelectionner;
         $numAnnee = substr($idMois, 0, 4);
         $numMois = substr($idMois, 4, 2);
-        $nom = $pdo->getNom($idVisiteur);
-        $prenom = $pdo->getPrenom($idVisiteur);
+        $infoVisiteur = $pdo->getFicheVisiteur($idVisiteur);
+                $nom = $infoVisiteur['nom'];
+                $prenom = $infoVisiteur['prenom'];
 
         //Utilisation des fonctions afin de pouvoir afficher les données sélectionnées
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $idMois);
@@ -137,8 +139,9 @@ switch ($action) {
         $idMois = $moisASelectionner;
         $numAnnee = substr($idMois, 0, 4);
         $numMois = substr($idMois, 4, 2);
-        $nom = $pdo->getNom($idVisiteur);
-        $prenom = $pdo->getPrenom($idVisiteur);
+        $infoVisiteur = $pdo->getFicheVisiteur($idVisiteur);
+                $nom = $infoVisiteur['nom'];
+                $prenom = $infoVisiteur['prenom'];
 
         //Utilisation des fonctions afin de pouvoir afficher les données sélectionnées
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $idMois);
@@ -202,8 +205,9 @@ switch ($action) {
         $idMois = $moisASelectionner;
         $numAnnee = substr($idMois, 0, 4);
         $numMois = substr($idMois, 4, 2);
-        $nom = $pdo->getNom($idVisiteur);
-        $prenom = $pdo->getPrenom($idVisiteur);
+        $infoVisiteur = $pdo->getFicheVisiteur($idVisiteur);
+                $nom = $infoVisiteur['nom'];
+                $prenom = $infoVisiteur['prenom'];;
 
         //Utilisation des fonctions afin de pouvoir afficher les données sélectionnées
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $idMois);
@@ -238,8 +242,9 @@ switch ($action) {
         $idMois = $moisASelectionner;
         $numAnnee = substr($idMois, 0, 4);
         $numMois = substr($idMois, 4, 2);
-        $nom = $pdo->getNom($idVisiteur);
-        $prenom = $pdo->getPrenom($idVisiteur);
+        $infoVisiteur = $pdo->getFicheVisiteur($idVisiteur);
+                $nom = $infoVisiteur['nom'];
+                $prenom = $infoVisiteur['prenom'];
         
 
         //Utilisation des fonctions afin de pouvoir afficher les données sélectionnées

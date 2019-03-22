@@ -79,11 +79,15 @@ switch ($action) {
                 $montantValide = $lesInfosFicheFrais['montantValide'];
                 $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
                 $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
-                $nom = $pdo->getNom($idVisiteur);
-                $prenom = $pdo->getPrenom($idVisiteur);
-                $adresse = $pdo->getAdresse($idVisiteur);
-                $cp = $pdo->getCp($idVisiteur);
-                $ville = $pdo->getVille($idVisiteur);
+                
+                //Récupération des informations sur le visiteur
+                $infoVisiteur = $pdo->getFicheVisiteur($idVisiteur);
+                $nom = $infoVisiteur['nom'];
+                $prenom = $infoVisiteur['prenom'];
+                $adresse = $infoVisiteur['adresse'];
+                $cp = $infoVisiteur['cp'];
+                $ville = $infoVisiteur['ville'];
+                $idVehicule = $pdo->getLibelleVehicule($idVisiteur);
 
                 //put charset & bootstrap
                 file_put_contents('pdf/' . $nompdf . '.html', '<link rel="stylesheet" type="text/css" href="..\styles\bootstrap\bootstrap.css">
@@ -103,6 +107,7 @@ switch ($action) {
             Visiteur : ' . $prenom . ' ' . $nom . '<br/>
             Adresse : ' . $adresse . ' ' . $cp . ' ' . $ville . '<br/>
             Matricule : ' . $idVisiteur . '<br/>
+            Type Véhicule : ' . $idVehicule . '<br/>
             </div></div></div>', FILE_APPEND);
 
                 //put en-tête frais
@@ -195,8 +200,11 @@ switch ($action) {
                 exec('C:/wamp64/www/GSB_AppliMVC/pdf/wkhtmltopdf/bin/wkhtmltopdf.exe '
                         . 'C:/wamp64/www/GSB_AppliMVC/pdf/' . $nompdf .
                         '.html C:/wamp64/www/GSB_AppliMVC/pdf/' . $nompdf . '.pdf');
-
-                //Fin si pdf non généré
+                
+                //Suppression de la page html après sa génération
+                unlink('pdf/' . $nompdf . '.html');
+                
+                 //Fin si pdf non généré
             }
 
             //Affichage du pdf (si pdf déjà généré, affiche directement)

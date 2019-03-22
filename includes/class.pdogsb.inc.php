@@ -489,7 +489,30 @@ class PdoGsb {
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
-
+    
+ /**
+     * Retourne les informations d'un visiteur
+     *
+     * @param String $idVisiteur ID du visiteur
+     *
+     * @return id, nom, prenom, adresse, cp, ville et idvéhicule sous la forme d'un tableau associatif
+     */
+    public function getFicheVisiteur($idVisiteur) {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+                'SELECT visiteur.id AS id, visiteur.nom AS nom, '
+                . 'visiteur.prenom AS prenom, '
+                . 'visiteur.adresse AS adresse, visiteur.cp AS cp, '
+                . 'visiteur.ville AS ville, visiteur.idvehicule AS idvehicule '
+                . 'FROM visiteur '
+                . 'WHERE visiteur.id = :unIdVisiteur '               
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch();
+        return $laLigne;
+    }
+    
+    
     /**
      * Fonction qui retourne la liste des visiteurs
      * Appel : $instancePdoGsb = PdoGsb::getPdoGsb();
@@ -505,45 +528,6 @@ class PdoGsb {
         );
         $requetePrepare->execute();
         return $requetePrepare->fetchAll();
-    }
-
-    /**
-     * Fonction qui retourne la liste des visiteurs
-     * Appel : $instancePdoGsb = PdoGsb::getPdoGsb();
-     *
-     * @return Array de visiteurs
-     */
-    public function getPrenom($idVisiteur) {
-        $requetePrepare = PdoGSB::$monPdo->prepare(
-                'SELECT prenom '
-                . 'FROM visiteur '
-                . 'WHERE visiteur.id = :unIdVisiteur'
-        );
-        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
-
-        $requetePrepare->execute();
-        $laLigne = $requetePrepare->fetch();
-        $prenom = $laLigne['prenom'];
-        return $prenom;
-    }
-
-    /**
-     * Fonction qui retourne la liste des visiteurs
-     * Appel : $instancePdoGsb = PdoGsb::getPdoGsb();
-     *
-     * @return Array de visiteurs
-     */
-    public function getNom($idVisiteur) {
-        $requetePrepare = PdoGSB::$monPdo->prepare(
-                'SELECT nom '
-                . 'FROM visiteur '
-                . 'WHERE visiteur.id = :unIdVisiteur'
-        );
-        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
-        $requetePrepare->execute();
-        $laLigne = $requetePrepare->fetch();
-        $nom = $laLigne['nom'];
-        return $nom;
     }
 
     /**
@@ -756,8 +740,7 @@ class PdoGsb {
      */
     public function getEtatFicheFrais($idVisiteur, $idMois) {
         $requetePrepare = PdoGSB::$monPdo->prepare(
-                'SELECT etat.libelle '
-                . 'AS libelle '
+                'SELECT etat.libelle AS libelle, etat.id AS id '
                 . 'FROM etat '
                 . 'JOIN fichefrais ON etat.id=fichefrais.idetat '
                 . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
@@ -767,34 +750,9 @@ class PdoGsb {
         $requetePrepare->bindParam(':unMois', $idMois, PDO::PARAM_STR);
         $requetePrepare->execute();
         $laLigne = $requetePrepare->fetch();
-        $libelle = $laLigne['libelle'];
-        return $libelle;
+        return $laLigne;
     }
 
-    /**
-     * Fonction qui retourne le libelle de la fiche de frais
-     * 
-     * @String $idVisiteur  id du visteur concerné
-     * @String $mois        mois concerné
-     * 
-     * @return le libelle de la fiche de frais (de la table etat
-     */
-    public function getEtatFicheFraisA($idVisiteur, $idMois) {
-        $requetePrepare = PdoGSB::$monPdo->prepare(
-                'SELECT etat.id '
-                . 'AS id '
-                . 'FROM etat '
-                . 'JOIN fichefrais ON etat.id=fichefrais.idetat '
-                . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
-                . 'AND fichefrais.mois = :unMois'
-        );
-        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
-        $requetePrepare->bindParam(':unMois', $idMois, PDO::PARAM_STR);
-        $requetePrepare->execute();
-        $laLigne = $requetePrepare->fetch();
-        $id = $laLigne['id'];
-        return $id;
-    }
 
     /**
      * Met à jour le vehicule utilisé
@@ -816,24 +774,6 @@ class PdoGsb {
         $requetePrepare->execute();
     }
 
-    /**
-     * Fonction qui retourne la liste des visiteurs
-     * Appel : $instancePdoGsb = PdoGsb::getPdoGsb();
-     *
-     * @return Array de visiteurs
-     */
-    public function getTypeVehicule($idVisiteur) {
-        $requetePrepare = PdoGSB::$monPdo->prepare(
-                'SELECT idvehicule '
-                . 'FROM visiteur '
-                . 'WHERE visiteur.id = :unIdVisiteur'
-        );
-        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
-        $requetePrepare->execute();
-        $laLigne = $requetePrepare->fetch();
-        $typeVehicule = $laLigne['idvehicule'];
-        return $typeVehicule;
-    }
 
     /**
      * Fonction qui retourne la liste des visiteurs
@@ -896,57 +836,5 @@ class PdoGsb {
         $laLigne = $requetePrepare->fetch();
         $libelleVehicule = $laLigne['libelle'];
         return $libelleVehicule;
-    }
-
-    
-    public function getAdresse($idVisiteur){
-       
-       $requetePrepare = PdoGSB::$monPdo->prepare(
-                'SELECT adresse '
-                . 'FROM visiteur '
-                . 'WHERE visiteur.id = :unIdVisiteur'
-        );
-        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
-
-        $requetePrepare->execute();
-        $laLigne = $requetePrepare->fetch();
-        $adresse = $laLigne['adresse'];
-        return $adresse;
-       
-   }
-   
-      public function getCp($idVisiteur){
-       
-       $requetePrepare = PdoGSB::$monPdo->prepare(
-                'SELECT cp '
-                . 'FROM visiteur '
-                . 'WHERE visiteur.id = :unIdVisiteur'
-        );
-        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
-
-        $requetePrepare->execute();
-        $laLigne = $requetePrepare->fetch();
-        $cp = $laLigne['cp'];
-        return $cp;
-       
-   }
-   
-   
-      public function getVille($idVisiteur){
-       
-       $requetePrepare = PdoGSB::$monPdo->prepare(
-                'SELECT ville '
-                . 'FROM visiteur '
-                . 'WHERE visiteur.id = :unIdVisiteur'
-        );
-        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
-
-        $requetePrepare->execute();
-        $laLigne = $requetePrepare->fetch();
-        $ville = $laLigne['ville'];
-        return $ville;
-       
-   }
-    
-    
+    }  
 }
