@@ -503,7 +503,8 @@ class PdoGsb {
                 . 'visiteur.prenom AS prenom, '
                 . 'visiteur.adresse AS adresse, visiteur.cp AS cp, '
                 . 'visiteur.ville AS ville, visiteur.idvehicule AS idvehicule '
-                . 'FROM visiteur '
+                . 'vehicule.libelle AS libellevehicule '
+                . 'FROM visiteur JOIN vehicule ON vehicule.id = visiteur.idvehicule '
                 . 'WHERE visiteur.id = :unIdVisiteur '               
         );
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);

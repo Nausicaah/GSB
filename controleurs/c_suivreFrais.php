@@ -62,7 +62,7 @@ switch ($action) {
             $infoVisiteur = $pdo->getFicheVisiteur($idVisiteur);
             $nom = $infoVisiteur['nom'];
             $prenom = $infoVisiteur['prenom'];
-            $libelleVehicule = $pdo->getLibelleVehicule($idVisiteur);
+            $libelleVehicule = $infoVisiteur['libellevehicule'];
 
             //Utilisation des fonctions afin de pouvoir afficher les données sélectionnées
             $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $idMois);

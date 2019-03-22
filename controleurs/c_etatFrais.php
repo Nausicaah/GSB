@@ -87,7 +87,7 @@ switch ($action) {
                 $adresse = $infoVisiteur['adresse'];
                 $cp = $infoVisiteur['cp'];
                 $ville = $infoVisiteur['ville'];
-                $libelleVehicule = $pdo->getLibelleVehicule($idVisiteur);
+                $libelleVehicule = $infoVisiteur['libellevehicule'];
 
                 //put charset & bootstrap
                 file_put_contents('pdf/' . $nompdf . '.html', '<link rel="stylesheet" type="text/css" href="..\styles\bootstrap\bootstrap.css">
