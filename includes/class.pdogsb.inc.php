@@ -658,7 +658,7 @@ class PdoGsb {
      * @String $idVisiteur  id du visteur concerné
      * @String $mois        mois concerné
      * 
-     * @return le total des couts hors forfaits
+     * @return le total des couts forfaits
      */
     public function getTotalFraisForfait($idVisiteur, $idMois) {
         $requetePrepare = PdoGSB::$monPdo->prepare(
@@ -667,7 +667,7 @@ class PdoGsb {
                 . 'FROM lignefraisforfait '
                 . 'JOIN fraisforfait ON idfraisforfait=fraisforfait.id '
                 . 'WHERE lignefraisforfait.idvisiteur = :unIdVisiteur '
-                . 'AND lignefraisforfait.mois = :unMois'
+                . 'AND lignefraisforfait.mois = :unMois AND idfraisforfait !="KM"'
         );
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMois', $idMois, PDO::PARAM_STR);
@@ -774,49 +774,6 @@ class PdoGsb {
         $requetePrepare->execute();
     }
 
-
-    /**
-     * Fonction qui retourne la liste des visiteurs
-     * Appel : $instancePdoGsb = PdoGsb::getPdoGsb();
-     *
-     * @return Array de visiteurs
-  
-    public function getIndemKM($typeVehicule) {
-        $requetePrepare = PdoGSB::$monPdo->prepare(
-                'SELECT montant '
-                . 'FROM vehicule '
-                . 'WHERE vehicule.id = :unVehicule'
-        );
-        $requetePrepare->bindParam(':unVehicule', $typeVehicule, PDO::PARAM_LOB);
-
-        $requetePrepare->execute();
-        $laLigne = $requetePrepare->fetch();
-        $montant = $laLigne['montant'];
-        return $montant;
-    }*/
-
-    /**
-     * Fonction qui retourne la liste des visiteurs
-
-     */
-    public function getNbKm($idVisiteur, $idMois) {
-        $requetePrepare = PdoGSB::$monPdo->prepare(
-                'SELECT lignefraisforfait.quantite as quantite '
-                . 'FROM lignefraisforfait '
-                . 'INNER JOIN fraisforfait '
-                . 'ON fraisforfait.id = lignefraisforfait.idfraisforfait '
-                . 'WHERE lignefraisforfait.idvisiteur = :unIdVisiteur '
-                . 'AND lignefraisforfait.mois = :unMois '
-                . 'AND lignefraisforfait.idfraisforfait = "KM"'
-        );
-        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
-        $requetePrepare->bindParam(':unMois', $idMois, PDO::PARAM_STR);
-        $requetePrepare->execute();
-        $laLigne = $requetePrepare->fetch();
-        $quantite = $laLigne['quantite'];
-        return $quantite;
-    }
-
     /**
      * Fonction qui retourne la liste des visiteurs
      * Appel : $instancePdoGsb = PdoGsb::getPdoGsb();
@@ -838,15 +795,28 @@ class PdoGsb {
         return $libelleVehicule;
     }  
     
-
     
-    public function getIndemKM($typeVehicule) {
+    
+    /**
+     * Fonction qui retourne le total des frais KM avec le calcul de m'indemnité
+     * 
+     * @String $idVisiteur   ID du Visiteur
+     * @String $idmois       ID du Mois
+     * @string $typeVehicule ID du Vehicule du visiteur
+     * 
+     * @return le total de l'indemnité KM calculée en fonction du nb de kilomètre parcouru par le visiteur au mois donné
+     */
+      
+    public function getIndemKMTotal($typeVehicule, $idVisiteur, $idMois) {
         $requetePrepare = PdoGSB::$monPdo->prepare(
-                'SELECT vehicule.montant + fraisforfait.montant AS montant '
-                . 'FROM vehicule JOIN fraisforfait '
-                . 'WHERE fraisforfait.id ="KM" AND vehicule.id = :unVehicule'
+                'SELECT (vehicule.montant + fraisforfait.montant)*lignefraisforfait.quantite AS montant '
+                . 'FROM vehicule JOIN fraisforfait JOIN lignefraisforfait ON fraisforfait.id = lignefraisforfait.idfraisforfait '
+                . 'WHERE fraisforfait.id ="KM" AND vehicule.id = :unVehicule AND lignefraisforfait.idvisiteur = :unIdVisiteur '
+                . 'AND lignefraisforfait.mois = :unMois AND lignefraisforfait.idfraisforfait = "KM"'
         );
         $requetePrepare->bindParam(':unVehicule', $typeVehicule, PDO::PARAM_LOB);
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMois', $idMois, PDO::PARAM_STR);
         $requetePrepare->execute();
         $laLigne = $requetePrepare->fetch();
         $montant = $laLigne['montant'];

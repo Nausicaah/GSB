@@ -299,12 +299,8 @@ switch ($action) {
 
           $totalFF = $pdo->getTotalFraisForfait($idVisiteur, $idMois);
           $totalFHF = $pdo->getTotalFraisHorsForfait($idVisiteur, $idMois);
-          $IndemKM = $pdo->getIndemKM($typeVehicule);
-          var_dump($IndemKM);
-          $KM = "KM";
-          $totalKM = $pdo->getNbKm($idVisiteur, $idMois, $KM);
-          $totalKM = $totalKM * $IndemKM;
-
+          $totalKM = $pdo->getIndemKMTotal($typeVehicule, $idVisiteur, $idMois);
+          var_dump($totalKM);
 
           $totalFiche = $totalFF + $totalFHF + $totalKM;
 
