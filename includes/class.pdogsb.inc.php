@@ -502,7 +502,7 @@ class PdoGsb {
                 'SELECT visiteur.id AS id, visiteur.nom AS nom, '
                 . 'visiteur.prenom AS prenom, '
                 . 'visiteur.adresse AS adresse, visiteur.cp AS cp, '
-                . 'visiteur.ville AS ville, visiteur.idvehicule AS idvehicule '
+                . 'visiteur.ville AS ville, visiteur.idvehicule AS idvehicule, '
                 . 'vehicule.libelle AS libellevehicule '
                 . 'FROM visiteur JOIN vehicule ON vehicule.id = visiteur.idvehicule '
                 . 'WHERE visiteur.id = :unIdVisiteur '               
@@ -629,7 +629,7 @@ class PdoGsb {
     }
 
     /**
-     * Fonction qui retourne la total des frais hors forfait
+     * Fonction qui retourne le total des frais hors forfait
      * 
      * @String $idVisiteur  id du visteur concerné
      * @String $mois        mois concerné
@@ -654,12 +654,12 @@ class PdoGsb {
     }
 
     /**
-     * Fonction qui retourne la total des frais forfait
+     * Fonction qui retourne le total des frais forfait
      * 
      * @String $idVisiteur  id du visteur concerné
      * @String $mois        mois concerné
      * 
-     * @return le total des couts forfaits
+     * @return le total des couts forfaits (sans frais km)
      */
     public function getTotalFraisForfait($idVisiteur, $idMois) {
         $requetePrepare = PdoGSB::$monPdo->prepare(
@@ -774,28 +774,6 @@ class PdoGsb {
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
-
-    /**
-     * Fonction qui retourne la liste des visiteurs
-     * Appel : $instancePdoGsb = PdoGsb::getPdoGsb();
-     *
-     * @return Array de visiteurs
-     */
-    public function getLibelleVehicule($idVisiteur) {
-        $requetePrepare = PdoGSB::$monPdo->prepare(
-                'SELECT vehicule.libelle '
-                . 'FROM vehicule '
-                . 'INNER JOIN visiteur '
-                . 'ON vehicule.id = visiteur.idvehicule '
-                . 'WHERE visiteur.id = :unIdVisiteur'
-        );
-        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
-        $requetePrepare->execute();
-        $laLigne = $requetePrepare->fetch();
-        $libelleVehicule = $laLigne['libelle'];
-        return $libelleVehicule;
-    }  
-    
     
     
     /**
