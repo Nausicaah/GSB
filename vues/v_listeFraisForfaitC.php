@@ -70,7 +70,7 @@ if ($uc == 'validerFrais') {
             <div class="alert alert-info" role="alert">
                 Fiche de <?php echo $nom, ' ', $prenom ?>, pour le mois de <?php echo $numMois, '/', $numAnnee ?>.
                 <br>
-                Type de la voiture : <?php echo $libelleVoiture ?>. 
+                Type de la voiture : <?php echo $libelleVehicule ?>. 
             </div>
         </div>
     </div>

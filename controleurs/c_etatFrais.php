@@ -87,7 +87,7 @@ switch ($action) {
                 $adresse = $infoVisiteur['adresse'];
                 $cp = $infoVisiteur['cp'];
                 $ville = $infoVisiteur['ville'];
-                $idVehicule = $pdo->getLibelleVehicule($idVisiteur);
+                $libelleVehicule = $pdo->getLibelleVehicule($idVisiteur);
 
                 //put charset & bootstrap
                 file_put_contents('pdf/' . $nompdf . '.html', '<link rel="stylesheet" type="text/css" href="..\styles\bootstrap\bootstrap.css">
@@ -107,7 +107,7 @@ switch ($action) {
             Visiteur : ' . $prenom . ' ' . $nom . '<br/>
             Adresse : ' . $adresse . ' ' . $cp . ' ' . $ville . '<br/>
             Matricule : ' . $idVisiteur . '<br/>
-            Type Véhicule : ' . $idVehicule . '<br/>
+            Type Véhicule : ' . $libelleVehicule . '<br/>
             </div></div></div>', FILE_APPEND);
 
                 //put en-tête frais

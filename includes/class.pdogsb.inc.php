@@ -419,7 +419,7 @@ class PdoGsb {
         $requetePrepare = PdoGSB::$monPdo->prepare(
                 'SELECT fichefrais.mois AS mois FROM fichefrais '
                 . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
-                . 'AND fichefrais.idetat != "VA"'
+                . 'AND fichefrais.idetat != "VA" AND fichefrais.idetat !="RB" '
                 . 'ORDER BY fichefrais.mois desc'
         );
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
@@ -736,7 +736,7 @@ class PdoGsb {
      * @String $idVisiteur  id du visteur concerné
      * @String $mois        mois concerné
      * 
-     * @return le libelle de la fiche de frais (de la table etat
+     * @return le libelle et l'id de la fiche de frais (de la table etat) sous la forme d'un tableau associatif
      */
     public function getEtatFicheFrais($idVisiteur, $idMois) {
         $requetePrepare = PdoGSB::$monPdo->prepare(
@@ -780,7 +780,7 @@ class PdoGsb {
      * Appel : $instancePdoGsb = PdoGsb::getPdoGsb();
      *
      * @return Array de visiteurs
-     */
+  
     public function getIndemKM($typeVehicule) {
         $requetePrepare = PdoGSB::$monPdo->prepare(
                 'SELECT montant '
@@ -793,7 +793,7 @@ class PdoGsb {
         $laLigne = $requetePrepare->fetch();
         $montant = $laLigne['montant'];
         return $montant;
-    }
+    }*/
 
     /**
      * Fonction qui retourne la liste des visiteurs
@@ -837,4 +837,22 @@ class PdoGsb {
         $libelleVehicule = $laLigne['libelle'];
         return $libelleVehicule;
     }  
+    
+
+    
+    public function getIndemKM($typeVehicule) {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+                'SELECT vehicule.montant + fraisforfait.montant AS montant '
+                . 'FROM vehicule JOIN fraisforfait '
+                . 'WHERE fraisforfait.id ="KM" AND vehicule.id = :unVehicule'
+        );
+        $requetePrepare->bindParam(':unVehicule', $typeVehicule, PDO::PARAM_LOB);
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch();
+        $montant = $laLigne['montant'];
+        return $montant;
+    }
+    
+    
+    
 }
