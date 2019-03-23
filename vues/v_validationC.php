@@ -27,7 +27,7 @@ if ($uc == 'validerFrais') {
                   action="index.php?uc=validerFrais&action=validerFiche" 
                   role="form">
                 <fieldset>
-                    <button class="btn btn-success" type="submit" onclick="return confirm('Voulez-vous vraiment valider cette fiche de frais?');"">Valider fiche de frais</button>
+                    <button class="btn btn-success" type="submit" onclick="return confirm('Voulez-vous vraiment valider cette fiche de frais?');">Valider fiche de frais</button>
                     <input name="lstVisiteurs" value="<?php echo $visiteurASelectionner; ?>" type="hidden">
                     <input name="lstMoisC" value="<?php echo $moisASelectionner; ?>" type="hidden">
                 </fieldset>
@@ -55,6 +55,4 @@ if ($uc == 'validerFrais') {
     <br>
     <br>
     <?php
-}else{?>
-    <br>
-<?php } ?>
+} ?>

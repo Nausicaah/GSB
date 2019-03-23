@@ -79,7 +79,7 @@ switch ($action) {
                 $montantValide = $lesInfosFicheFrais['montantValide'];
                 $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
                 $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
-                
+
                 //Récupération des informations sur le visiteur
                 $infoVisiteur = $pdo->getFicheVisiteur($idVisiteur);
                 $nom = $infoVisiteur['nom'];
@@ -88,6 +88,7 @@ switch ($action) {
                 $cp = $infoVisiteur['cp'];
                 $ville = $infoVisiteur['ville'];
                 $libelleVehicule = $infoVisiteur['libellevehicule'];
+                $vehiculeDispo = $pdo->getTypeVoiture();
 
                 //put charset & bootstrap
                 file_put_contents('pdf/' . $nompdf . '.html', '<link rel="stylesheet" type="text/css" href="..\styles\bootstrap\bootstrap.css">
@@ -183,12 +184,15 @@ switch ($action) {
             <strong>Frais forfaitaires : </strong>Les frais forfaitaires doivent être justifiés par une facture acquittée faisant apparaître le montant de la TVA. Ces documents ne sont pas à joindre à l’état de frais mais doivent être conservés pendant trois années. Ils peuvent être contrôlés par le délégué régional ou le service comptable
             <br><strong>Montants unitaires : </strong>Tarifs en vigueur au 01/09/2017
             <br><strong>Indemnité kilométrique : </strong>Prix au kilomètre selon la puissance du véhicule  déclaré auprès des services comptables
-            <ul>
-                <li>(Véhicule  4CV Diesel) 	0.52 € / Km</li>
-                <li>(Véhicule 5/6CV Diesel) 	0.58 € / Km</li>
-                <li>(Véhicule  4CV Essence) 	0.62 € / Km</li>
-                <li>(Véhicule 5/6CV Essence) 	0.67 € / Km</li>
-            </ul>
+            <ul>', FILE_APPEND);
+
+                foreach ($vehiculeDispo as $unVehicule) {
+                    $libelleVehicule = $unVehicule['libellevehicule'];
+                    $indemKm = $unVehicule['indemKm'];
+                    file_put_contents('pdf/' . $nompdf . '.html', '<li>(' . $libelleVehicule . ') ' . $indemKm . '€ / Km </li>', FILE_APPEND);
+                }
+
+                file_put_contents('pdf/' . $nompdf . '.html', '</ul>
             <br><strong>Frais non forfaitaires : </strong>Tout frais « hors forfait » doit être dûment justifié par l’envoi d’une facture acquittée faisant apparaître le montant de TVA
 </div>', FILE_APPEND);
 
@@ -200,11 +204,11 @@ switch ($action) {
                 exec('C:/wamp64/www/GSB_AppliMVC/pdf/wkhtmltopdf/bin/wkhtmltopdf.exe '
                         . 'C:/wamp64/www/GSB_AppliMVC/pdf/' . $nompdf .
                         '.html C:/wamp64/www/GSB_AppliMVC/pdf/' . $nompdf . '.pdf');
-                
+
                 //Suppression de la page html après sa génération
                 unlink('pdf/' . $nompdf . '.html');
-                
-                 //Fin si pdf non généré
+
+                //Fin si pdf non généré
             }
 
             //Affichage du pdf (si pdf déjà généré, affiche directement)

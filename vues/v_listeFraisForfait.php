@@ -27,19 +27,22 @@
             <fieldset>
                 <label for="typeVehicule">Selectionner le type de véhicule : </label>
                 <select id="typeVehicule" name="typeVehicule" class="form-control">
-                            <!-- Pas de visiteur par défaut -->
-                <option selected="">
-                <option value="4CVD">Vehicule 4CV Diesel</option>
-                <option value="5/6CVD">Vehicule 5/6CV Diesel</option>
-                <option value="4CVE">Vehicule 4CV Essence</option>
-                <option value="5/6CVE">Vehicule 5/6CV Essence</option>
+                    <?php
+                    foreach ($vehiculeDispo as $unVehicule) {
+                        $libelleVehicule = $unVehicule['libellevehicule'];
+                        $idVehicule = $unVehicule['idvehicule'];
+                        ?>
+                        <option value="<?php echo $idVehicule ?>"><?php echo $libelleVehicule ?></option>
+                        <?php
+                    }
+                    ?>
                 </select>
                 <?php
- 
                 foreach ($lesFraisForfait as $unFrais) {
                     $idFrais = $unFrais['idfrais'];
                     $libelle = htmlspecialchars($unFrais['libelle']);
-                    $quantite = $unFrais['quantite']; ?>
+                    $quantite = $unFrais['quantite'];
+                    ?>
                     <div class="form-group">
                         <label for="idFrais"><?php echo $libelle ?></label>
                         <input type="text" id="idFrais" 
@@ -51,10 +54,10 @@
                     <?php
                 }
                 ?>
-                
+
                 <button class="btn btn-success" type="submit">Ajouter</button>    
-                <a class="btn btn-danger" href="index.php?uc=gererFrais&action=supprimerFraisForfait&<?php echo $idVisiteur;?>&mois=<?php echo $numAnnee, $numMois; ?>" onclick="return confirm('Voulez-vous vraiment supprimer ce frais?');" role="button">Effacer</a>
-                
+                <a class="btn btn-danger" href="index.php?uc=gererFrais&action=supprimerFraisForfait&<?php echo $idVisiteur; ?>&mois=<?php echo $numAnnee, $numMois; ?>" onclick="return confirm('Voulez-vous vraiment supprimer ce frais?');" role="button">Effacer</a>
+
             </fieldset>
         </form>
     </div>

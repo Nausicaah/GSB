@@ -406,8 +406,8 @@ class PdoGsb {
         $requetePrepare->bindParam(':unIdFrais', $idFrais, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
-
-    /**
+    
+      /**
      * Retourne les mois pour lesquel un visiteur a une fiche de frais
      *
      * @param String $idVisiteur ID du visiteur
@@ -416,6 +416,37 @@ class PdoGsb {
      *         l'année et le mois correspondant
      */
     public function getLesMoisDisponibles($idVisiteur) {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+                'SELECT fichefrais.mois AS mois FROM fichefrais '
+                . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
+                . 'ORDER BY fichefrais.mois desc'
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $lesMois[] = array();
+        while ($laLigne = $requetePrepare->fetch()) {
+            $mois = $laLigne['mois'];
+            $numAnnee = substr($mois, 0, 4);
+            $numMois = substr($mois, 4, 2);
+            $lesMois[] = array(
+                'mois' => $mois,
+                'numAnnee' => $numAnnee,
+                'numMois' => $numMois
+            );
+        }
+        return $lesMois;
+    }
+    
+
+    /**
+     * Retourne les mois pour lesquel un visiteur a une fiche de frais (comptable)
+     *
+     * @param String $idVisiteur ID du visiteur
+     *
+     * @return un tableau associatif de clé un mois -aaaamm- et de valeurs
+     *         l'année et le mois correspondant
+     */
+    public function getLesMoisDisponiblesC($idVisiteur) {
         $requetePrepare = PdoGSB::$monPdo->prepare(
                 'SELECT fichefrais.mois AS mois FROM fichefrais '
                 . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
@@ -516,7 +547,6 @@ class PdoGsb {
     
     /**
      * Fonction qui retourne la liste des visiteurs
-     * Appel : $instancePdoGsb = PdoGsb::getPdoGsb();
      *
      * @return Array de visiteurs
      */
@@ -590,7 +620,7 @@ class PdoGsb {
      * Récupère le libelle d'un montant HF
      * 
      * @param String $idFrais
-     * 
+     * o
      * @return $libelle
      */
     public function getMontantHorsForfait($idFrais) {
@@ -661,6 +691,7 @@ class PdoGsb {
      * 
      * @return le total des couts forfaits (sans frais km)
      */
+    
     public function getTotalFraisForfait($idVisiteur, $idMois) {
         $requetePrepare = PdoGSB::$monPdo->prepare(
                 'SELECT SUM(quantite*montant) '
@@ -688,6 +719,7 @@ class PdoGsb {
      *
      * @return null
      */
+    
     public function majMontantFicheValide($idVisiteur, $idMois, $totalFiche) {
         $requetePrepare = PdoGsB::$monPdo->prepare(
                 'UPDATE fichefrais '
@@ -709,6 +741,7 @@ class PdoGsb {
      * @return un tableau associatif de clé un mois -aaaamm- et de valeurs
      *         l'année et le mois correspondant
      */
+    
     public function getLesFichesDisponibles($idVisiteur) {
         $requetePrepare = PdoGSB::$monPdo->prepare(
                 'SELECT fichefrais.mois AS mois FROM fichefrais '
@@ -732,13 +765,14 @@ class PdoGsb {
     }
 
     /**
-     * Fonction qui retourne le libelle de la fiche de frais
+     * Fonction qui retourne le libelle (état) de la fiche de frais
      * 
      * @String $idVisiteur  id du visteur concerné
      * @String $mois        mois concerné
      * 
      * @return le libelle et l'id de la fiche de frais (de la table etat) sous la forme d'un tableau associatif
      */
+    
     public function getEtatFicheFrais($idVisiteur, $idMois) {
         $requetePrepare = PdoGSB::$monPdo->prepare(
                 'SELECT etat.libelle AS libelle, etat.id AS id '
@@ -764,6 +798,7 @@ class PdoGsb {
      *
      * @return null
      */
+    
     public function majTypeVehicule($idVisiteur, $typeVehicule) {
         $requetePrepare = PdoGsB::$monPdo->prepare(
                 'UPDATE visiteur '
@@ -777,7 +812,8 @@ class PdoGsb {
     
     
     /**
-     * Fonction qui retourne le total des frais KM avec le calcul de m'indemnité
+     * Fonction qui retourne le total des frais KM avec le calcul de l'indemnité
+     * 
      * 
      * @String $idVisiteur   ID du Visiteur
      * @String $idmois       ID du Mois
@@ -787,21 +823,49 @@ class PdoGsb {
      */
       
     public function getIndemKMTotal($typeVehicule, $idVisiteur, $idMois) {
+        //Récupère le montant de l'indemnité Km
         $requetePrepare = PdoGSB::$monPdo->prepare(
-                'SELECT (vehicule.montant + fraisforfait.montant)*lignefraisforfait.quantite AS montant '
-                . 'FROM vehicule JOIN fraisforfait JOIN lignefraisforfait ON fraisforfait.id = lignefraisforfait.idfraisforfait '
-                . 'WHERE fraisforfait.id ="KM" AND vehicule.id = :unVehicule AND lignefraisforfait.idvisiteur = :unIdVisiteur '
-                . 'AND lignefraisforfait.mois = :unMois AND lignefraisforfait.idfraisforfait = "KM"'
+                'SELECT vehicule.montant AS indemnite '
+                . 'FROM vehicule '
+                . 'WHERE vehicule.id = :unVehicule'
         );
         $requetePrepare->bindParam(':unVehicule', $typeVehicule, PDO::PARAM_LOB);
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch();
+        $indemnite = $laLigne['indemnite'];
+         
+        
+        //Récupère le nb de Km parcouru
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+                'SELECT lignefraisforfait.quantite AS nbkm '
+                . 'FROM lignefraisforfait '
+                . 'WHERE lignefraisforfait.idvisiteur = :unIdVisiteur '
+                . 'AND lignefraisforfait.mois = :unMois AND lignefraisforfait.idfraisforfait = "KM"'
+        );
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMois', $idMois, PDO::PARAM_STR);
         $requetePrepare->execute();
         $laLigne = $requetePrepare->fetch();
-        $montant = $laLigne['montant'];
-        return $montant;
+        $nbKm = $laLigne['nbkm'];
+        return $nbKm * $indemnite;
+    }    
+    
+   
+     /**
+     * Retourne les libellés, id et montants des différents types de voitures disponibles
+     *
+     * @param String $idVisiteur ID du visiteur
+     *
+     * @return id, nom, prenom, adresse, cp, ville et idvéhicule sous la forme d'un tableau associatif
+     */
+    public function getTypeVoiture() {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+                'SELECT vehicule.libelle AS libellevehicule, vehicule.montant AS indemKm, vehicule.id AS idvehicule '
+                . 'FROM vehicule '             
+        );
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetchAll();
+        return $laLigne;
     }
-    
-    
     
 }
