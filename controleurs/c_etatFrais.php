@@ -64,7 +64,7 @@ switch ($action) {
             //création du nom du PDF
             $nompdf = $idMois . '_' . $idVisiteur;
             //récupération du chemin du pdf
-            $filename = 'pdf/' . $nompdf . '.pdf';
+            $filename = 'C:\wamp64\www\GSB_AppliMVC\pdf' . $nompdf . '.pdf';
 
             //Si le pdf n'est pas généré
             if (!file_exists($filename)) {
@@ -91,7 +91,7 @@ switch ($action) {
                 $vehiculeDispo = $pdo->getTypeVoiture();
 
                 //put charset & bootstrap
-                file_put_contents('pdf/' . $nompdf . '.html', '<link rel="stylesheet" type="text/css" href="..\styles\bootstrap\bootstrap.css">
+                file_put_contents('C:\wamp64\www\GSB_AppliMVC\pdf/' . $nompdf . '.html', '<link rel="stylesheet" type="text/css" href="../styles/bootstrap/bootstrap.css">
             <meta charset="UTF-8">
             <div class ="row">
             <div class="col-md-1"></div>
@@ -101,7 +101,7 @@ switch ($action) {
             <br><br>', FILE_APPEND);
 
                 //put en-tête récap infos visiteurs
-                file_put_contents('pdf/' . $nompdf . '.html', '<div class="row">
+                file_put_contents('C:\wamp64\www\GSB_AppliMVC\pdf/' . $nompdf . '.html', '<div class="row">
             <div class="col-md-1"><h1>Votre facture</h1></div>
             <div class="col-md-11">
             <div class="alert alert-info" role="alert">
@@ -112,7 +112,7 @@ switch ($action) {
             </div></div></div>', FILE_APPEND);
 
                 //put en-tête frais
-                file_put_contents('pdf/' . $nompdf . '.html', '<div class=" row">
+                file_put_contents('C:\wamp64\www\GSB_AppliMVC\pdf/' . $nompdf . '.html', '<div class=" row">
             <div class="col-md-1"></div>
             <div class="col-md-10">
             <div class="panel panel-primary">
@@ -123,7 +123,7 @@ switch ($action) {
             </div></div>', FILE_APPEND);
 
                 //put table html pour le foreach
-                file_put_contents('pdf/' . $nompdf . '.html', '<div class="panel panel-info">
+                file_put_contents('C:\wamp64\www\GSB_AppliMVC\pdf/' . $nompdf . '.html', '<div class="panel panel-info">
             <div class="panel-heading">Eléments forfaitisés</div>
             <table class="table table-bordered table-responsive">
             <tr>', FILE_APPEND);
@@ -131,24 +131,24 @@ switch ($action) {
                 foreach ($lesFraisForfait as $unFraisForfait) {
                     $libelle = $unFraisForfait['libelle'];
                     //put les libelles
-                    file_put_contents('pdf/' . $nompdf . '.html', '<th>' . $libelle . '</th>', FILE_APPEND);
+                    file_put_contents('C:\wamp64\www\GSB_AppliMVC\pdf/' . $nompdf . '.html', '<th>' . $libelle . '</th>', FILE_APPEND);
                 }
 
                 //put balises html fin foreach
-                file_put_contents('pdf/' . $nompdf . '.html', '</tr><tr>', FILE_APPEND);
+                file_put_contents('C:\wamp64\www\GSB_AppliMVC\pdf/' . $nompdf . '.html', '</tr><tr>', FILE_APPEND);
 
 
                 foreach ($lesFraisForfait as $unFraisForfait) {
                     $quantite = $unFraisForfait['quantite'];
                     //put les quantites
-                    file_put_contents('pdf/' . $nompdf . '.html', '<td class="qteForfait">' . $quantite . '</td>', FILE_APPEND);
+                    file_put_contents('C:\wamp64\www\GSB_AppliMVC\pdf/' . $nompdf . '.html', '<td class="qteForfait">' . $quantite . '</td>', FILE_APPEND);
                 }
 
                 //put balise fin fooreach
-                file_put_contents('pdf/' . $nompdf . '.html', '</tr></table></div>', FILE_APPEND);
+                file_put_contents('C:\wamp64\www\GSB_AppliMVC\pdf/' . $nompdf . '.html', '</tr></table></div>', FILE_APPEND);
 
                 //put descriptif hors forfait
-                file_put_contents('pdf/' . $nompdf . '.html', '
+                file_put_contents('C:\wamp64\www\GSB_AppliMVC\pdf/' . $nompdf . '.html', '
             <div class="panel panel-info">
             <div class="panel-heading">Descriptif des éléments hors forfait - 
                 ' . $nbJustificatifs . 'justificatifs reçus</div>
@@ -164,7 +164,7 @@ switch ($action) {
                     $libelle = htmlspecialchars($unFraisHorsForfait['libelle']);
                     $montant = $unFraisHorsForfait['montant'];
                     //put des HF
-                    file_put_contents('pdf/' . $nompdf . '.html', '<tr>
+                    file_put_contents('C:\wamp64\www\GSB_AppliMVC\pdf/' . $nompdf . '.html', '<tr>
                     <td>' . $date . '</td>
                     <td>' . $libelle . '</td>
                     <td>' . $montant . '</td>
@@ -172,10 +172,10 @@ switch ($action) {
                 }
 
                 //put fin balises html
-                file_put_contents('pdf/' . $nompdf . '.html', '</table></div></div></div>', FILE_APPEND);
+                file_put_contents('C:\wamp64\www\GSB_AppliMVC\pdf/' . $nompdf . '.html', '</table></div></div></div>', FILE_APPEND);
 
                 //put signatures et notes
-                file_put_contents('pdf/' . $nompdf . '.html', '<div class="row">
+                file_put_contents('C:\wamp64\www\GSB_AppliMVC\pdf/' . $nompdf . '.html', '<div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-4"><h3>Date et signature :</h3></div>
             </div>
@@ -189,10 +189,10 @@ switch ($action) {
                 foreach ($vehiculeDispo as $unVehicule) {
                     $libelleVehicule = $unVehicule['libellevehicule'];
                     $indemKm = $unVehicule['indemKm'];
-                    file_put_contents('pdf/' . $nompdf . '.html', '<li>(' . $libelleVehicule . ') ' . $indemKm . '€ / Km </li>', FILE_APPEND);
+                    file_put_contents('C:\wamp64\www\GSB_AppliMVC\pdf/' . $nompdf . '.html', '<li>(' . $libelleVehicule . ') ' . $indemKm . '€ / Km </li>', FILE_APPEND);
                 }
 
-                file_put_contents('pdf/' . $nompdf . '.html', '</ul>
+                file_put_contents('C:\wamp64\www\GSB_AppliMVC\pdf/' . $nompdf . '.html', '</ul>
             <br><strong>Frais non forfaitaires : </strong>Tout frais « hors forfait » doit être dûment justifié par l’envoi d’une facture acquittée faisant apparaître le montant de TVA
 </div>', FILE_APPEND);
 
@@ -201,10 +201,7 @@ switch ($action) {
                  * Deuxième chemin => page html
                  * Troisième chemin => gen PDF
                  */
-                exec('C:/wamp64/www/GSB_AppliMVC/pdf/wkhtmltopdf/bin/wkhtmltopdf.exe '
-                        . 'C:/wamp64/www/GSB_AppliMVC/pdf/' . $nompdf .
-                        '.html C:/wamp64/www/GSB_AppliMVC/pdf/' . $nompdf . '.pdf');
-
+                exec('C:/wamp64/www/GSB_AppliMVC/pdf/wkhtmltopdf/bin/wkhtmltopdf.exe C:\wamp64\www\GSB_AppliMVC\pdf/'.$nompdf.'.html C:\wamp64\www\GSB_AppliMVC\pdf/' . $nompdf . '.pdf');
                 //Suppression de la page html après sa génération
                 unlink('pdf/' . $nompdf . '.html');
 
