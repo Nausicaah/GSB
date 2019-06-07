@@ -195,9 +195,7 @@ function valideInfosFrais($dateFrais, $libelle, $montant) {
             ajouterErreur('Date invalide');
         } else {
             if (estDateDepassee($dateFrais)) {
-                ajouterErreur(
-                        "date d'enregistrement du frais dépassé, plus de 1 an"
-                );
+                ajouterErreur('date d\'enregistrement du frais dépassé, plus de 1 an');
             }
         }
     }
